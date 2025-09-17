@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 class AssessmentSessionResult(
     val id: Long?,
-    val sessionId: String,
+    val sessionId: Long,
     val totalQuestions: Int,
     var correctAnswers: Int = 0,
     var totalScore: BigDecimal = BigDecimal.ZERO,

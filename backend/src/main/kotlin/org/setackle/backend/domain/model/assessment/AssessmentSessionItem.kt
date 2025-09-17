@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 class AssessmentSessionItem(
     val id: Long?,
-    val sessionId: String,
+    val sessionId: Long,
     val questionId: Long,
     var selectedOptionId: Long,
     val questionOrder: Int,
