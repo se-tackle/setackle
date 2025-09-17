@@ -9,9 +9,9 @@ import java.time.LocalDateTime
 
 interface AssessmentSessionResultJpaRepository : JpaRepository<AssessmentSessionResultJpaEntity, Long> {
 
-    fun findBySessionId(sessionId: String): AssessmentSessionResultJpaEntity?
+    fun findBySessionId(sessionId: Long): AssessmentSessionResultJpaEntity?
 
-    fun existsBySessionId(sessionId: String): Boolean
+    fun existsBySessionId(sessionId: Long): Boolean
 
     @Query("SELECT asr FROM AssessmentSessionResultJpaEntity asr WHERE asr.totalScore >= :minScore")
     fun findByTotalScoreGreaterThanEqual(@Param("minScore") minScore: BigDecimal): List<AssessmentSessionResultJpaEntity>

@@ -35,6 +35,7 @@ class AssessmentSessionResultJpaEntity(
     @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now()
 ) {
+    @Transient
     private val objectMapper = jacksonObjectMapper()
 
     var topicResults: Map<Long, AssessmentSessionResult.TopicResult>
