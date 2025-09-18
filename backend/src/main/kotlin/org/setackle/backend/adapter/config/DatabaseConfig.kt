@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.out.persistence.config
+package org.setackle.backend.adapter.config
 
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy
 import org.springframework.context.annotation.Bean
