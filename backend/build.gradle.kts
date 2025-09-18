@@ -6,6 +6,7 @@ plugins {
     kotlin("plugin.jpa") version "1.9.25"
     id("org.jlleitschuh.gradle.ktlint") version "11.6.1"
     id("jacoco")
+    id("org.flywaydb.flyway") version "11.12.0"
 }
 
 group = "org.setackle"
@@ -45,7 +46,9 @@ dependencies {
     
     // Database
     runtimeOnly("org.postgresql:postgresql")
-    
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+
     // Development
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     
