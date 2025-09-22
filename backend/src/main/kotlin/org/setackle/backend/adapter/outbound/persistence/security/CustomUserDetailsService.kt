@@ -1,6 +1,6 @@
 package org.setackle.backend.adapter.outbound.persistence.security
 
-import org.setackle.backend.adapter.inbound.web.security.CustomUserDetails
+import org.setackle.backend.application.security.CustomUserDetails
 import org.setackle.backend.adapter.outbound.persistence.user.repository.UserJpaRepository
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

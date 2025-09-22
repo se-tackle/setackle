@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.inbound.web.security
+package org.setackle.backend.application.security
 
 import org.setackle.backend.domain.user.model.User
 import org.setackle.backend.domain.user.model.UserRole

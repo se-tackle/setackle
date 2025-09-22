@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.inbound.web.security
+package org.setackle.backend.adapter.outbound.security
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.setackle.backend.adapter.config.JwtConfig
+import org.setackle.backend.application.security.CustomUserDetails
 import org.setackle.backend.domain.user.model.UserRole
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
