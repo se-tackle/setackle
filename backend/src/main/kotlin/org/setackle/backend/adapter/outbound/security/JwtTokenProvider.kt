@@ -3,7 +3,6 @@ package org.setackle.backend.adapter.outbound.security
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.security.Keys
 import org.setackle.backend.adapter.config.JwtConfig
 import org.setackle.backend.application.security.CustomUserDetails
@@ -36,15 +35,15 @@ class JwtTokenProvider(
         val expiryDate = Date(now.time + jwtConfig.accessTokenValidity * 1000)
 
         return Jwts.builder()
-            .setSubject(userDetails.getUserId().toString())
+            .subject(userDetails.getUserId().toString())
             .claim("email", userDetails.getEmail())
             .claim("username", userDetails.getUsernameDisplay())
             .claim("role", userDetails.getRole().name)
             .claim("type", "ACCESS")
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
-            .setIssuer(jwtConfig.issuer)
-            .signWith(secretKey, SignatureAlgorithm.HS512)
+            .issuedAt(now)
+            .expiration(expiryDate)
+            .issuer(jwtConfig.issuer)
+            .signWith(secretKey, Jwts.SIG.HS512)
             .compact()
     }
 
@@ -57,12 +56,12 @@ class JwtTokenProvider(
         val expiryDate = Date(now.time + jwtConfig.refreshTokenValidity * 1000)
 
         return Jwts.builder()
-            .setSubject(userDetails.getUserId().toString())
+            .subject(userDetails.getUserId().toString())
             .claim("type", "REFRESH")
-            .setIssuedAt(now)
-            .setExpiration(expiryDate)
-            .setIssuer(jwtConfig.issuer)
-            .signWith(secretKey, SignatureAlgorithm.HS512)
+            .issuedAt(now)
+            .expiration(expiryDate)
+            .issuer(jwtConfig.issuer)
+            .signWith(secretKey, Jwts.SIG.HS512)
             .compact()
     }
 
@@ -145,7 +144,7 @@ class JwtTokenProvider(
             logger.error("JWT 토큰 검증 실패: ${e.message}")
             false
         } catch (e: IllegalArgumentException) {
-            logger.error("JWT 토큰이 비어있습니다.")
+            logger.error("JWT 토큰이 비어있습니다.", e)
             false
         } catch (e: Exception) {
             logger.error("JWT 토큰 검증 중 예외 발생", e)
