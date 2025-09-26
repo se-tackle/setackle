@@ -1,8 +1,7 @@
 package org.setackle.backend.adapter.outbound.persistence.user.entity
 
 import jakarta.persistence.*
-import org.setackle.backend.domain.user.model.User
-import org.setackle.backend.domain.user.model.UserRole
+import org.setackle.backend.domain.user.model.*
 import java.time.LocalDateTime
 
 @Entity
@@ -44,17 +43,14 @@ class UserJpaEntity(
     var lastLoginAt: LocalDateTime? = null
 ) {
     fun toDomain(): User {
-        return User(
-            id = id,
-            email = email,
-            username = username,
-            passwordHash = passwordHash,
+        return User.reconstruct(
+            id = id?.let { UserId.of(it) },
+            email = Email.of(email),
+            username = Username.of(username),
+            password = Password.fromHash(passwordHash),
             role = role,
             isActive = isActive,
             emailVerified = emailVerified,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-            deletedAt = deletedAt,
             lastLoginAt = lastLoginAt
         )
     }
@@ -62,16 +58,16 @@ class UserJpaEntity(
     companion object {
         fun fromDomain(user: User): UserJpaEntity {
             return UserJpaEntity(
-                id = user.id,
-                email = user.email,
-                username = user.username,
-                passwordHash = user.passwordHash,
+                id = user.id?.value,
+                email = user.email.normalized,
+                username = user.username.normalized,
+                passwordHash = user.getHashedPassword(),
                 role = user.role,
                 isActive = user.isActive,
                 emailVerified = user.emailVerified,
-                createdAt = user.createdAt ?: LocalDateTime.now(),
-                updatedAt = user.updatedAt ?: LocalDateTime.now(),
-                deletedAt = user.deletedAt,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now(),
+                deletedAt = null,
                 lastLoginAt = user.lastLoginAt
             )
         }

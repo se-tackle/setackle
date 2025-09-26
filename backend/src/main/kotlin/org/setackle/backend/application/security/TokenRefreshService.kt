@@ -1,11 +1,9 @@
 package org.setackle.backend.application.security
 
 import org.setackle.backend.adapter.config.JwtConfig
-import org.setackle.backend.domain.user.inbound.TokenBlacklistUseCase
-import org.setackle.backend.domain.user.inbound.TokenRefreshUseCase
-import org.setackle.backend.domain.user.inbound.TokenRefreshException
-import org.setackle.backend.domain.user.inbound.TokenRefreshResult
+import org.setackle.backend.domain.user.inbound.*
 import org.setackle.backend.domain.user.model.User
+import org.setackle.backend.domain.user.model.UserId
 import org.setackle.backend.domain.user.outbound.TokenCachePort
 import org.setackle.backend.domain.user.outbound.TokenPort
 import org.setackle.backend.domain.user.outbound.UserPort
@@ -59,7 +57,7 @@ class TokenRefreshService(
             }
 
             // 6. 사용자 정보 조회 및 활성 상태 확인
-            val user = userPort.findById(userId)
+            val user = userPort.findById(UserId.of(userId))
                 ?: throw TokenRefreshException("사용자를 찾을 수 없습니다")
 
             if (!user.isActive || !user.emailVerified) {

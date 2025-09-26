@@ -14,11 +14,11 @@ class CustomUserDetails(
         return listOf(SimpleGrantedAuthority("ROLE_${user.role.name}"))
     }
 
-    override fun getPassword(): String = user.passwordHash
+    override fun getPassword(): String = user.getHashedPassword()
 
-    override fun getUsername(): String = user.email
+    override fun getUsername(): String = user.email.value
 
-    override fun isAccountNonExpired(): Boolean = user.deletedAt == null
+    override fun isAccountNonExpired(): Boolean = user.isActive
 
     override fun isAccountNonLocked(): Boolean = user.isActive
 
@@ -27,11 +27,11 @@ class CustomUserDetails(
     override fun isEnabled(): Boolean = user.isActive && user.emailVerified
 
     // 추가 사용자 정보 접근 메서드
-    fun getUserId(): Long? = user.id
+    fun getUserId(): Long? = user.id?.value
 
-    fun getEmail(): String = user.email
+    fun getEmail(): String = user.email.value
 
-    fun getUsernameDisplay(): String = user.username
+    fun getUsernameDisplay(): String = user.username.value
 
     fun getRole(): UserRole = user.role
 
