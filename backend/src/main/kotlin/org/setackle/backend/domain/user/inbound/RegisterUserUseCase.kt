@@ -26,7 +26,9 @@ data class RegisterUserCommand(
  * 회원가입 결과
  */
 data class RegisterUserResult(
-    val user: User,
+    val userId: Long,
+    val email: String,
+    val username: String,
     val accessToken: String,
     val refreshToken: String
 )
