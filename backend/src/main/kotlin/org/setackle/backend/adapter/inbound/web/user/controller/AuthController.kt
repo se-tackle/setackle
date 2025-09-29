@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
 import org.setackle.backend.adapter.inbound.web.common.ApiResponse
 import org.setackle.backend.adapter.inbound.web.user.dto.*
-import org.setackle.backend.domain.user.inbound.LoginUseCase
-import org.setackle.backend.domain.user.inbound.LogoutUseCase
-import org.setackle.backend.domain.user.inbound.RegisterUserUseCase
+import org.setackle.backend.domain.user.inbound.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -20,6 +18,8 @@ class AuthController(
     private val registerUserUseCase: RegisterUserUseCase,
     private val loginUseCase: LoginUseCase,
     private val logoutUseCase: LogoutUseCase,
+    private val logoutAllSessionsUseCase: LogoutAllSessionsUseCase,
+    private val refreshTokenUseCase: RefreshTokenUseCase,
 ) {
 
     @Operation(summary = "회원가입", description = "새로운 사용자 계정을 생성합니다.")
@@ -79,6 +79,45 @@ class AuthController(
 
         val result = logoutUseCase.logout(command)
         val response = LogoutResponse.from(result)
+
+        return ApiResponse.success(response)
+    }
+
+    @Operation(summary = "모든 세션 로그아웃", description = "사용자의 모든 활성 세션을 로그아웃합니다.")
+    @PostMapping("/logout-all")
+    @ResponseStatus(HttpStatus.OK)
+    fun logoutAllSessions(
+        @AuthenticationPrincipal userId: Long,
+        @RequestBody(required = false) request: LogoutAllRequest?,
+        httpRequest: HttpServletRequest
+    ): ApiResponse<LogoutAllResponse> {
+
+        val command = request.toCommand(
+            userId = userId,
+            reason = "USER_LOGOUT_ALL"
+        )
+
+        val result = logoutAllSessionsUseCase.logoutAllSessions(command)
+        val response = LogoutAllResponse.from(result)
+
+        return ApiResponse.success(response)
+    }
+
+    @Operation(summary = "토큰 갱신", description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다.")
+    @PostMapping("/refresh")
+    @ResponseStatus(HttpStatus.OK)
+    fun refreshToken(
+        @Valid @RequestBody request: RefreshTokenRequest,
+        httpRequest: HttpServletRequest
+    ): ApiResponse<RefreshTokenResponse> {
+        val command = request.toCommand(
+            deviceInfo = extractDeviceInfo(httpRequest),
+            ipAddress = extractIpAddress(httpRequest),
+            userAgent = httpRequest.getHeader("User-Agent")
+        )
+
+        val result = refreshTokenUseCase.execute(command)
+        val response = RefreshTokenResponse.from(result)
 
         return ApiResponse.success(response)
     }
