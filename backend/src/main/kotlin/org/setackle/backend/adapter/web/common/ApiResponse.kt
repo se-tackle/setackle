@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.inbound.web.common
+package org.setackle.backend.adapter.web.common
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import io.swagger.v3.oas.annotations.media.Schema

@@ -1,8 +1,8 @@
 package org.setackle.backend.adapter.config
 
-import org.setackle.backend.adapter.inbound.web.security.JwtAccessDeniedHandler
-import org.setackle.backend.adapter.inbound.web.security.JwtAuthenticationEntryPoint
-import org.setackle.backend.adapter.inbound.web.security.JwtAuthenticationFilter
+import org.setackle.backend.adapter.web.security.JwtAccessDeniedHandler
+import org.setackle.backend.adapter.web.security.JwtAuthenticationEntryPoint
+import org.setackle.backend.adapter.web.security.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity

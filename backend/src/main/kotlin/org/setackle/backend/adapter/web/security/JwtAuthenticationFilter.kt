@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.inbound.web.security
+package org.setackle.backend.adapter.web.security
 
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest

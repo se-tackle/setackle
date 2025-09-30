@@ -1,9 +1,9 @@
-package org.setackle.backend.adapter.inbound.web.security
+package org.setackle.backend.adapter.web.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.setackle.backend.adapter.inbound.web.common.ErrorResponse
+import org.setackle.backend.adapter.web.common.ErrorResponse
 import org.setackle.backend.common.exception.ErrorCode
 import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType

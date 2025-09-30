@@ -1,16 +1,12 @@
-package org.setackle.backend.adapter.inbound.web.user.controller
+package org.setackle.backend.adapter.web.user.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
-import org.setackle.backend.adapter.inbound.web.common.ApiResponse
-import org.setackle.backend.adapter.inbound.web.user.dto.*
-import org.setackle.backend.application.user.inbound.LoginUseCase
-import org.setackle.backend.application.user.inbound.LogoutAllSessionsUseCase
-import org.setackle.backend.application.user.inbound.LogoutUseCase
-import org.setackle.backend.application.user.inbound.RefreshTokenUseCase
-import org.setackle.backend.application.user.inbound.RegisterUserUseCase
+import org.setackle.backend.adapter.web.common.ApiResponse
+import org.setackle.backend.adapter.web.user.dto.*
+import org.setackle.backend.application.user.inbound.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*

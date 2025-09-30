@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.inbound.web.security
+package org.setackle.backend.adapter.web.security
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

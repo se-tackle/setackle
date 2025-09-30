@@ -1,7 +1,7 @@
 package org.setackle.backend.adapter.config
 
-import org.setackle.backend.adapter.inbound.web.security.RateLimitingInterceptor
-import org.setackle.backend.adapter.inbound.web.security.RequestValidationInterceptor
+import org.setackle.backend.adapter.web.security.RateLimitingInterceptor
+import org.setackle.backend.adapter.web.security.RequestValidationInterceptor
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
