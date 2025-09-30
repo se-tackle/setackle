@@ -1,6 +1,5 @@
 package org.setackle.backend.adapter.security
 
-import org.setackle.backend.application.security.CustomUserDetails
 import org.setackle.backend.domain.user.model.User
 import org.setackle.backend.application.user.outbound.TokenPort
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

@@ -1,7 +1,6 @@
-package org.setackle.backend.adapter.persistence.security
+package org.setackle.backend.adapter.security
 
 import org.setackle.backend.adapter.persistence.user.repository.UserJpaRepository
-import org.setackle.backend.application.security.CustomUserDetails
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.web.security
+package org.setackle.backend.adapter.security
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
