@@ -57,10 +57,3 @@ data class SessionInfo(
     val isCurrentSession: Boolean,
 )
 
-/**
- * 세션 관리 관련 예외
- */
-class SessionManagementException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)

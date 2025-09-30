@@ -111,10 +111,3 @@ data class TokenExpirationWarning(
     val warningLevel: String,
 )
 
-/**
- * 토큰 메타데이터 관련 예외
- */
-class TokenMetadataException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)

@@ -27,10 +27,3 @@ data class TokenBlacklistStatus(
     val error: String? = null,
 )
 
-/**
- * 토큰 블랙리스트 관련 예외
- */
-class TokenBlacklistException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)
