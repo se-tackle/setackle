@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.outbound.security
+package org.setackle.backend.adapter.security
 
 import org.setackle.backend.application.security.CustomUserDetails
 import org.setackle.backend.domain.user.model.User
@@ -6,6 +6,7 @@ import org.setackle.backend.application.user.outbound.TokenPort
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 /**
  * 토큰 관련 어댑터 (Port의 구현체)
@@ -48,7 +49,7 @@ class TokenAdapter(
         return jwtTokenProvider.getEmailFromToken(token)
     }
 
-    override fun getExpirationFromToken(token: String): java.time.LocalDateTime? {
+    override fun getExpirationFromToken(token: String): LocalDateTime? {
         return jwtTokenProvider.getExpirationFromToken(token)
     }
 

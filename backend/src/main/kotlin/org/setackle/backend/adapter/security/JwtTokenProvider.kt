@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.outbound.security
+package org.setackle.backend.adapter.security
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException

@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.setackle.backend.adapter.config.JwtConfig
 import org.setackle.backend.adapter.persistence.security.CustomUserDetailsService
-import org.setackle.backend.adapter.outbound.security.JwtTokenProvider
+import org.setackle.backend.adapter.security.JwtTokenProvider
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
