@@ -1,7 +1,7 @@
 package org.setackle.backend.adapter.outbound.persistence.user.repository
 
 import org.setackle.backend.adapter.outbound.persistence.user.entity.UserJpaEntity
-import org.setackle.backend.domain.user.model.UserRole
+import org.setackle.backend.domain.user.vo.UserRole
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

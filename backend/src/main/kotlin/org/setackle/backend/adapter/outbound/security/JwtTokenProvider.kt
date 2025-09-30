@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.setackle.backend.adapter.config.JwtConfig
 import org.setackle.backend.application.security.CustomUserDetails
-import org.setackle.backend.domain.user.model.UserRole
+import org.setackle.backend.domain.user.vo.UserRole
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component

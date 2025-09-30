@@ -1,9 +1,9 @@
 package org.setackle.backend.adapter.outbound.cache
 
-import org.setackle.backend.domain.user.outbound.RefreshTokenData
-import org.setackle.backend.domain.user.outbound.TokenCachePort
-import org.setackle.backend.domain.user.outbound.TokenMetadata
-import org.setackle.backend.domain.user.outbound.UserSessionData
+import org.setackle.backend.application.user.outbound.RefreshTokenData
+import org.setackle.backend.application.user.outbound.TokenCachePort
+import org.setackle.backend.application.user.outbound.TokenMetadata
+import org.setackle.backend.application.user.outbound.UserSessionData
 import org.springframework.stereotype.Component
 import java.time.Duration
 

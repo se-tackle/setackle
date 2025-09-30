@@ -3,8 +3,8 @@ package org.setackle.backend.adapter.inbound.web.user.dto
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
-import org.setackle.backend.domain.user.inbound.RegisterUserCommand
-import org.setackle.backend.domain.user.inbound.RegisterUserResult
+import org.setackle.backend.application.user.inbound.RegisterUserCommand
+import org.setackle.backend.application.user.inbound.RegisterUserResult
 
 /**
  * 회원가입 요청 DTO

@@ -2,8 +2,8 @@ package org.setackle.backend.adapter.inbound.web.user.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import org.setackle.backend.domain.user.inbound.LoginCommand
-import org.setackle.backend.domain.user.inbound.LoginResult
+import org.setackle.backend.application.user.inbound.LoginCommand
+import org.setackle.backend.application.user.inbound.LoginResult
 
 /**
  * 로그인 요청 DTO

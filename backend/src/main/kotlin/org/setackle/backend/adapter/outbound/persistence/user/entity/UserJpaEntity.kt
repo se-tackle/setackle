@@ -2,6 +2,11 @@ package org.setackle.backend.adapter.outbound.persistence.user.entity
 
 import jakarta.persistence.*
 import org.setackle.backend.domain.user.model.*
+import org.setackle.backend.domain.user.vo.Email
+import org.setackle.backend.domain.user.vo.Password
+import org.setackle.backend.domain.user.vo.UserId
+import org.setackle.backend.domain.user.vo.UserRole
+import org.setackle.backend.domain.user.vo.Username
 import java.time.LocalDateTime
 
 @Entity

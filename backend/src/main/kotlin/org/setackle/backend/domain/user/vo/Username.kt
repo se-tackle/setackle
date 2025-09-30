@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.model
+package org.setackle.backend.domain.user.vo
 
 /**
  * 사용자명 값 객체

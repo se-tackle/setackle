@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.inbound
+package org.setackle.backend.application.user.inbound
 
 /**
  * 사용자 로그인 유스케이스

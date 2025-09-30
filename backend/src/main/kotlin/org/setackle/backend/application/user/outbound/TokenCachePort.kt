@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.outbound
+package org.setackle.backend.application.user.outbound
 
 import java.time.Duration
 import java.time.LocalDateTime

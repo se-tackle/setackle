@@ -1,10 +1,10 @@
 package org.setackle.backend.adapter.inbound.web.user.dto
 
 import jakarta.validation.constraints.NotBlank
-import org.setackle.backend.domain.user.inbound.RefreshTokenCommand
-import org.setackle.backend.domain.user.inbound.RefreshTokenResult
-import org.setackle.backend.domain.user.model.RefreshToken
-import org.setackle.backend.domain.user.model.SessionInfo
+import org.setackle.backend.application.user.inbound.RefreshTokenCommand
+import org.setackle.backend.application.user.inbound.RefreshTokenResult
+import org.setackle.backend.domain.user.vo.RefreshToken
+import org.setackle.backend.domain.user.vo.SessionInfo
 
 /**
  * 토큰 갱신 요청 DTO

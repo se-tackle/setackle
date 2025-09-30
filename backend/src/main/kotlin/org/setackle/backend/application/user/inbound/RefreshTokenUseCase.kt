@@ -1,8 +1,8 @@
-package org.setackle.backend.domain.user.inbound
+package org.setackle.backend.application.user.inbound
 
-import org.setackle.backend.domain.user.model.RefreshToken
-import org.setackle.backend.domain.user.model.SessionInfo
-import org.setackle.backend.domain.user.model.TokenPair
+import org.setackle.backend.domain.user.vo.RefreshToken
+import org.setackle.backend.domain.user.vo.SessionInfo
+import org.setackle.backend.domain.user.vo.TokenPair
 
 /**
  * Access Token 갱신 유스케이스

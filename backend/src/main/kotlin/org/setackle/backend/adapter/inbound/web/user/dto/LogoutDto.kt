@@ -1,7 +1,7 @@
 package org.setackle.backend.adapter.inbound.web.user.dto
 
-import org.setackle.backend.domain.user.inbound.LogoutCommand
-import org.setackle.backend.domain.user.inbound.LogoutResult
+import org.setackle.backend.application.user.inbound.LogoutCommand
+import org.setackle.backend.application.user.inbound.LogoutResult
 
 /**
  * 로그아웃 요청 DTO

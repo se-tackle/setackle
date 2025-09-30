@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.model
+package org.setackle.backend.domain.user.vo
 
 /**
  * Refresh Token 값 객체

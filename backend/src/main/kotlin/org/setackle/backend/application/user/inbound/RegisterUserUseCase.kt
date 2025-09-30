@@ -1,6 +1,4 @@
-package org.setackle.backend.domain.user.inbound
-
-import org.setackle.backend.domain.user.model.User
+package org.setackle.backend.application.user.inbound
 
 /**
  * 사용자 회원가입 유스케이스

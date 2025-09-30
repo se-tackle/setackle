@@ -2,13 +2,12 @@ package org.setackle.backend.adapter.inbound.web.security
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.setackle.backend.domain.user.outbound.TokenCachePort
+import org.setackle.backend.application.user.outbound.TokenCachePort
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import java.time.Duration
-import java.time.LocalDateTime
 
 /**
  * Rate Limiting 인터셉터

@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.model
+package org.setackle.backend.domain.user.vo
 
 /**
  * 세션 정보 값 객체

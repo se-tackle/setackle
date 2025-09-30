@@ -1,4 +1,4 @@
-package org.setackle.backend.domain.user.model
+package org.setackle.backend.domain.user.vo
 
 /**
  * Access Token 값 객체

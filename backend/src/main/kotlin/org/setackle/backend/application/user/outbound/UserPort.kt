@@ -1,9 +1,9 @@
-package org.setackle.backend.domain.user.outbound
+package org.setackle.backend.application.user.outbound
 
-import org.setackle.backend.domain.user.model.Email
+import org.setackle.backend.domain.user.vo.Email
 import org.setackle.backend.domain.user.model.User
-import org.setackle.backend.domain.user.model.UserId
-import org.setackle.backend.domain.user.model.Username
+import org.setackle.backend.domain.user.vo.UserId
+import org.setackle.backend.domain.user.vo.Username
 
 /**
  * 사용자 관련 출력 포트 (Output Port)

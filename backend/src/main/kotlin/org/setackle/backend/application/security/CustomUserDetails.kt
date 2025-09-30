@@ -1,7 +1,7 @@
 package org.setackle.backend.application.security
 
 import org.setackle.backend.domain.user.model.User
-import org.setackle.backend.domain.user.model.UserRole
+import org.setackle.backend.domain.user.vo.UserRole
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

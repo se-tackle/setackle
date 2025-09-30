@@ -1,9 +1,9 @@
 package org.setackle.backend.adapter.outbound.cache
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.setackle.backend.domain.user.outbound.RefreshTokenData
-import org.setackle.backend.domain.user.outbound.TokenMetadata
-import org.setackle.backend.domain.user.outbound.UserSessionData
+import org.setackle.backend.application.user.outbound.RefreshTokenData
+import org.setackle.backend.application.user.outbound.TokenMetadata
+import org.setackle.backend.application.user.outbound.UserSessionData
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.Duration
