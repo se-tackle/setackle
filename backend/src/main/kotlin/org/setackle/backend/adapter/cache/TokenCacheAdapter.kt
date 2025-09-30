@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.outbound.cache
+package org.setackle.backend.adapter.cache
 
 import org.setackle.backend.application.user.outbound.RefreshTokenData
 import org.setackle.backend.application.user.outbound.TokenCachePort
