@@ -14,7 +14,11 @@ class User private constructor(
     var role: UserRole,
     private var _isActive: Boolean,
     private var _emailVerified: Boolean,
-    var lastLoginAt: LocalDateTime? = null
+    private var _isDeleted: Boolean = false,
+    var registeredAt: LocalDateTime? = null,
+    var lastLoginAt: LocalDateTime? = null,
+    var deletedAt: LocalDateTime? = null,
+    var deletionReason: String? = null,
 ) {
 
     /**
@@ -28,6 +32,11 @@ class User private constructor(
     val emailVerified: Boolean get() = _emailVerified
 
     /**
+     * 계정 삭제 상태 (읽기 전용)
+     */
+    val isDeleted: Boolean get() = _isDeleted
+
+    /**
      * 사용자 등록 팩토리 메소드
      */
     companion object {
@@ -38,7 +47,7 @@ class User private constructor(
             role: UserRole = UserRole.USER
         ): User {
             val user = User(
-                id = null,
+                id = UserId.newUser(),
                 email = email,
                 username = username,
                 password = password,
@@ -61,7 +70,10 @@ class User private constructor(
             role: UserRole,
             isActive: Boolean,
             emailVerified: Boolean,
-            lastLoginAt: LocalDateTime? = null
+            lastLoginAt: LocalDateTime? = null,
+            isDeleted: Boolean = false,
+            deletedAt: LocalDateTime? = null,
+            deletionReason: String? = null,
         ): User {
             return User(
                 id = id,
@@ -71,7 +83,10 @@ class User private constructor(
                 role = role,
                 _isActive = isActive,
                 _emailVerified = emailVerified,
-                lastLoginAt = lastLoginAt
+                lastLoginAt = lastLoginAt,
+                _isDeleted = isDeleted,
+                deletedAt = deletedAt,
+                deletionReason = deletionReason,
             )
         }
     }
@@ -150,7 +165,43 @@ class User private constructor(
      * 특정 기능 접근 가능 여부 (이메일 인증 필요)
      */
     fun canAccessVerifiedFeatures(): Boolean {
-        return _isActive && _emailVerified
+        return _isActive && _emailVerified && !_isDeleted
+    }
+
+    /**
+     * 계정 삭제 처리 (소프트 삭제)
+     */
+    fun markAsDeleted(reason: String? = null) {
+        require(!_isDeleted) { "이미 삭제된 계정입니다." }
+
+        _isDeleted = true
+        deletedAt = LocalDateTime.now()
+        deletionReason = reason
+
+        // 삭제와 함께 계정 비활성화
+        _isActive = false
+    }
+
+    /**
+     * 개인정보 익명화 처리
+     */
+    fun anonymize(): User {
+        val anonymizedEmail = Email.of("deleted.user.${System.currentTimeMillis()}@deleted.com")
+        val anonymizedUsername = Username.of("deleted_user_${System.currentTimeMillis()}")
+
+        return User(
+            id = id,
+            email = anonymizedEmail,
+            username = anonymizedUsername,
+            password = password,
+            role = role,
+            _isActive = false,
+            _emailVerified = false,
+            lastLoginAt = lastLoginAt,
+            _isDeleted = true,
+            deletedAt = deletedAt,
+            deletionReason = deletionReason,
+        )
     }
 
     /**
@@ -165,7 +216,10 @@ class User private constructor(
             role = role,
             _isActive = _isActive,
             _emailVerified = _emailVerified,
-            lastLoginAt = lastLoginAt
+            lastLoginAt = lastLoginAt,
+            _isDeleted = _isDeleted,
+            deletedAt = deletedAt,
+            deletionReason = deletionReason,
         )
     }
 

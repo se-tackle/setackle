@@ -30,17 +30,20 @@ class UserJpaEntity(
     @Column(name = "email_verified", nullable = false)
     var emailVerified: Boolean = false,
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    val createdAt: LocalDateTime = LocalDateTime.now(),
+    @Column(name = "registered_at", nullable = false, updatable = false)
+    val registeredAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 
+    @Column(name = "last_login_at")
+    var lastLoginAt: LocalDateTime? = null,
+
     @Column(name = "deleted_at")
     var deletedAt: LocalDateTime? = null,
 
-    @Column(name = "last_login_at")
-    var lastLoginAt: LocalDateTime? = null
+    @Column(name = "deletion_reason")
+    var deletionReason: String? = null,
 ) {
     fun toDomain(): User {
         return User.reconstruct(
@@ -65,7 +68,7 @@ class UserJpaEntity(
                 role = user.role,
                 isActive = user.isActive,
                 emailVerified = user.emailVerified,
-                createdAt = LocalDateTime.now(),
+                registeredAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now(),
                 deletedAt = null,
                 lastLoginAt = user.lastLoginAt

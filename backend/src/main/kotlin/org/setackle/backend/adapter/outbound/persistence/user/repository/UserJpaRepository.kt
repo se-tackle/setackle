@@ -29,7 +29,7 @@ interface UserJpaRepository : JpaRepository<UserJpaEntity, Long> {
     @Query("SELECT u FROM UserJpaEntity u WHERE u.lastLoginAt >= :since")
     fun findByLastLoginAtAfter(@Param("since") since: LocalDateTime): List<UserJpaEntity>
 
-    @Query("SELECT u FROM UserJpaEntity u WHERE u.createdAt BETWEEN :start AND :end")
+    @Query("SELECT u FROM UserJpaEntity u WHERE u.registeredAt BETWEEN :start AND :end")
     fun findByCreatedAtBetween(
         @Param("start") start: LocalDateTime,
         @Param("end") end: LocalDateTime
