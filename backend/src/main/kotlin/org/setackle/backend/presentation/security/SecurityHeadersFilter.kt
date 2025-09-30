@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.web.security
+package org.setackle.backend.presentation.security
 
 import jakarta.servlet.*
 import jakarta.servlet.http.HttpServletRequest

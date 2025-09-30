@@ -1,11 +1,11 @@
-package org.setackle.backend.adapter.web.user.controller
+package org.setackle.backend.presentation.user.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.validation.Valid
-import org.setackle.backend.adapter.web.common.ApiResponse
-import org.setackle.backend.adapter.web.user.dto.*
+import org.setackle.backend.presentation.common.ApiResponse
+import org.setackle.backend.presentation.user.dto.*
 import org.setackle.backend.application.user.inbound.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal

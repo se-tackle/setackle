@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.web.user.dto
+package org.setackle.backend.presentation.user.dto
 
 import org.setackle.backend.application.user.inbound.LogoutCommand
 import org.setackle.backend.application.user.inbound.LogoutResult

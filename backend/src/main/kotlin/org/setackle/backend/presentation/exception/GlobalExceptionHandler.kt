@@ -1,7 +1,7 @@
-package org.setackle.backend.adapter.web.exception
+package org.setackle.backend.presentation.exception
 
-import org.setackle.backend.adapter.web.common.ApiResponse
-import org.setackle.backend.adapter.web.common.ErrorResponse
+import org.setackle.backend.presentation.common.ApiResponse
+import org.setackle.backend.presentation.common.ErrorResponse
 import org.setackle.backend.common.exception.BusinessException
 import org.setackle.backend.common.exception.ErrorCode
 import org.slf4j.LoggerFactory

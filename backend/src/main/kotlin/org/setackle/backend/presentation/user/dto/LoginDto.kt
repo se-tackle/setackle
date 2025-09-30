@@ -1,4 +1,4 @@
-package org.setackle.backend.adapter.web.user.dto
+package org.setackle.backend.presentation.user.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
