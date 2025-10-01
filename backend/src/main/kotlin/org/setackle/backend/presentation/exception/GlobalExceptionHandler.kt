@@ -45,7 +45,12 @@ class GlobalExceptionHandler {
         request: WebRequest
     ): ResponseEntity<ApiResponse<Nothing>> {
         val errors = ex.bindingResult.allErrors.associate { error ->
-            (error as FieldError).field to (error.defaultMessage ?: "유효하지 않은 값입니다")
+            val fieldName = if (error is FieldError) {
+                error.field
+            } else {
+                error.objectName
+            }
+            fieldName to (error.defaultMessage ?: "유효하지 않은 값입니다")
         }
 
         logger.warn("Validation failed: $errors, uri=${request.getDescription(false)}")

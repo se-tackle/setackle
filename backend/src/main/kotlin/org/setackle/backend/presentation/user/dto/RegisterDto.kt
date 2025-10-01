@@ -5,10 +5,12 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.setackle.backend.application.user.inbound.RegisterUserCommand
 import org.setackle.backend.application.user.inbound.RegisterUserResult
+import org.setackle.backend.presentation.common.validation.PasswordMatches
 
 /**
  * 회원가입 요청 DTO
  */
+@PasswordMatches
 data class RegisterRequest(
     @field:NotBlank(message = "이메일은 필수입니다.")
     @field:Email(message = "올바른 이메일 형식을 입력해주세요.")

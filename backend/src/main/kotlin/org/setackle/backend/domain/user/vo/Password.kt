@@ -67,13 +67,6 @@ class Password private constructor(val hashedValue: String) {
         }
 
         /**
-         * 두 비밀번호가 동일한지 검증
-         */
-        fun matches(password: String, confirmPassword: String): Boolean {
-            return password == confirmPassword
-        }
-
-        /**
          * 비밀번호 정책 검증
          */
         fun validatePolicy(password: String) {
