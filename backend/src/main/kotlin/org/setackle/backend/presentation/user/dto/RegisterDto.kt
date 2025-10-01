@@ -31,19 +31,11 @@ data class RegisterRequest(
 /**
  * RegisterRequest -> RegisterUserCommand 변환
  */
-fun RegisterRequest.toCommand(
-    deviceInfo: String?,
-    ipAddress: String?,
-    userAgent: String?,
-): RegisterUserCommand {
+fun RegisterRequest.toCommand(): RegisterUserCommand {
     return RegisterUserCommand(
         email = this.email,
         username = this.username,
         password = this.password,
-        confirmPassword = this.confirmPassword,
-        deviceInfo = deviceInfo,
-        ipAddress = ipAddress,
-        userAgent = userAgent,
     )
 }
 
@@ -54,8 +46,6 @@ data class RegisterResponse(
     val userId: Long,
     val email: String,
     val username: String,
-    val accessToken: String,
-    val refreshToken: String
 ) {
     companion object {
 
@@ -67,8 +57,6 @@ data class RegisterResponse(
                 userId = result.userId,
                 email = result.email,
                 username = result.username,
-                accessToken = result.accessToken,
-                refreshToken = result.refreshToken
             )
         }
     }

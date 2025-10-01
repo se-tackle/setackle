@@ -14,10 +14,6 @@ data class RegisterUserCommand(
     val email: String,
     val username: String,
     val password: String,
-    val confirmPassword: String,
-    val deviceInfo: String? = null,
-    val ipAddress: String? = null,
-    val userAgent: String? = null
 )
 
 /**
@@ -27,7 +23,5 @@ data class RegisterUserResult(
     val userId: Long,
     val email: String,
     val username: String,
-    val accessToken: String,
-    val refreshToken: String
 )
 

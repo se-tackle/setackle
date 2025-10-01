@@ -27,14 +27,8 @@ class AuthController(
     @ResponseStatus(HttpStatus.CREATED)
     fun register(
         @Valid @RequestBody request: RegisterRequest,
-        httpRequest: HttpServletRequest
     ): ApiResponse<RegisterResponse> {
-        val command = request.toCommand(
-            deviceInfo = extractDeviceInfo(httpRequest),
-            ipAddress = extractIpAddress(httpRequest),
-            userAgent = httpRequest.getHeader("User-Agent")
-        )
-
+        val command = request.toCommand()
         val result = registerUserUseCase.register(command)
         val response = RegisterResponse.from(result)
 
