@@ -18,6 +18,22 @@ class RequestValidationInterceptor : HandlerInterceptor {
     private val logger = LoggerFactory.getLogger(RequestValidationInterceptor::class.java)
 
     companion object {
+        // 검증에서 제외할 안전한 헤더들 (브라우저가 자동으로 설정하는 표준 헤더)
+        private val SAFE_HEADERS = setOf(
+            "user-agent",
+            "accept",
+            "accept-language",
+            "accept-encoding",
+            "referer",
+            "origin",
+            "sec-fetch-site",
+            "sec-fetch-mode",
+            "sec-fetch-dest",
+            "sec-ch-ua",
+            "sec-ch-ua-mobile",
+            "sec-ch-ua-platform"
+        )
+
         // SQL Injection 패턴
         private val SQL_INJECTION_PATTERNS = listOf(
             Pattern.compile("('|(\\-\\-)|(;)|(\\|)|(\\*)|(%))", Pattern.CASE_INSENSITIVE),
@@ -97,6 +113,11 @@ class RequestValidationInterceptor : HandlerInterceptor {
             if (headerValue.length > MAX_HEADER_LENGTH) {
                 logger.warn("Header too long: $headerName")
                 return false
+            }
+
+            // 안전한 헤더는 악성 패턴 검사 제외
+            if (SAFE_HEADERS.contains(headerName.lowercase())) {
+                continue
             }
 
             // 헤더 값에서 악성 패턴 검사
