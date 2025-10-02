@@ -1,10 +1,6 @@
 package org.setackle.backend.domain.user.model
 
-import org.setackle.backend.domain.user.vo.Email
-import org.setackle.backend.domain.user.vo.Password
-import org.setackle.backend.domain.user.vo.UserId
-import org.setackle.backend.domain.user.vo.UserRole
-import org.setackle.backend.domain.user.vo.Username
+import org.setackle.backend.domain.user.vo.*
 import java.time.LocalDateTime
 
 /**
@@ -19,7 +15,6 @@ class User private constructor(
     var role: UserRole,
     private var _isActive: Boolean,
     private var _emailVerified: Boolean,
-    private var _isDeleted: Boolean = false,
     var registeredAt: LocalDateTime? = null,
     var lastLoginAt: LocalDateTime? = null,
     var deletedAt: LocalDateTime? = null,
@@ -39,7 +34,7 @@ class User private constructor(
     /**
      * 계정 삭제 상태 (읽기 전용)
      */
-    val isDeleted: Boolean get() = _isDeleted
+    val isDeleted: Boolean get() = deletedAt != null
 
     /**
      * 사용자 등록 팩토리 메소드
@@ -75,8 +70,8 @@ class User private constructor(
             role: UserRole,
             isActive: Boolean,
             emailVerified: Boolean,
+            registeredAt: LocalDateTime,
             lastLoginAt: LocalDateTime? = null,
-            isDeleted: Boolean = false,
             deletedAt: LocalDateTime? = null,
             deletionReason: String? = null,
         ): User {
@@ -88,8 +83,8 @@ class User private constructor(
                 role = role,
                 _isActive = isActive,
                 _emailVerified = emailVerified,
+                registeredAt = registeredAt,
                 lastLoginAt = lastLoginAt,
-                _isDeleted = isDeleted,
                 deletedAt = deletedAt,
                 deletionReason = deletionReason,
             )
@@ -170,16 +165,15 @@ class User private constructor(
      * 특정 기능 접근 가능 여부 (이메일 인증 필요)
      */
     fun canAccessVerifiedFeatures(): Boolean {
-        return _isActive && _emailVerified && !_isDeleted
+        return _isActive && _emailVerified && !isDeleted
     }
 
     /**
      * 계정 삭제 처리 (소프트 삭제)
      */
     fun markAsDeleted(reason: String? = null) {
-        require(!_isDeleted) { "이미 삭제된 계정입니다." }
+        require(!isDeleted) { "이미 삭제된 계정입니다." }
 
-        _isDeleted = true
         deletedAt = LocalDateTime.now()
         deletionReason = reason
 
@@ -202,8 +196,8 @@ class User private constructor(
             role = role,
             _isActive = false,
             _emailVerified = false,
+            registeredAt = registeredAt,
             lastLoginAt = lastLoginAt,
-            _isDeleted = true,
             deletedAt = deletedAt,
             deletionReason = deletionReason,
         )
@@ -221,8 +215,8 @@ class User private constructor(
             role = role,
             _isActive = _isActive,
             _emailVerified = _emailVerified,
+            registeredAt = registeredAt,
             lastLoginAt = lastLoginAt,
-            _isDeleted = _isDeleted,
             deletedAt = deletedAt,
             deletionReason = deletionReason,
         )

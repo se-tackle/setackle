@@ -1,12 +1,8 @@
 package org.setackle.backend.infrastructure.persistence.user.entity
 
 import jakarta.persistence.*
-import org.setackle.backend.domain.user.model.*
-import org.setackle.backend.domain.user.vo.Email
-import org.setackle.backend.domain.user.vo.Password
-import org.setackle.backend.domain.user.vo.UserId
-import org.setackle.backend.domain.user.vo.UserRole
-import org.setackle.backend.domain.user.vo.Username
+import org.setackle.backend.domain.user.model.User
+import org.setackle.backend.domain.user.vo.*
 import java.time.LocalDateTime
 
 @Entity
@@ -59,7 +55,10 @@ class UserJpaEntity(
             role = role,
             isActive = isActive,
             emailVerified = emailVerified,
-            lastLoginAt = lastLoginAt
+            registeredAt = registeredAt,
+            lastLoginAt = lastLoginAt,
+            deletedAt = deletedAt,
+            deletionReason = deletionReason,
         )
     }
 
@@ -75,8 +74,9 @@ class UserJpaEntity(
                 emailVerified = user.emailVerified,
                 registeredAt = LocalDateTime.now(),
                 updatedAt = LocalDateTime.now(),
-                deletedAt = null,
-                lastLoginAt = user.lastLoginAt
+                lastLoginAt = user.lastLoginAt,
+                deletedAt = user.deletedAt,
+                deletionReason = user.deletionReason,
             )
         }
     }
