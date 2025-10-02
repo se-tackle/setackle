@@ -64,7 +64,7 @@ class RegisterUserService(
         )
 
         // 4. 사용자 저장
-        val savedUser = userPort.save(user)
+        val savedUser = userPort.create(user)
         logger.info("사용자 생성 완료: userId=${savedUser.id}, email=${savedUser.email.masked}")
 
         val userId = savedUser.id?.value

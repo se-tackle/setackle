@@ -1,7 +1,7 @@
 package org.setackle.backend.application.user.outbound
 
-import org.setackle.backend.domain.user.vo.Email
 import org.setackle.backend.domain.user.model.User
+import org.setackle.backend.domain.user.vo.Email
 import org.setackle.backend.domain.user.vo.UserId
 import org.setackle.backend.domain.user.vo.Username
 
@@ -24,17 +24,17 @@ interface UserPort {
     fun existsByUsername(username: Username): Boolean
 
     /**
-     * 사용자 저장
+     * 사용자 생성
      */
-    fun save(user: User): User
+    fun create(user: User): User
+
+    /**
+     * 사용자 필드 업데이트
+     */
+    fun update(user: User): User
 
     /**
      * 사용자 삭제 (하드 삭제)
      */
-    fun delete(user: User)
-
-    /**
-     * 사용자 계정 삭제 표시 (소프트 삭제)
-     */
-    fun markAsDeleted(user: User): User
+    fun delete(id: UserId)
 }
