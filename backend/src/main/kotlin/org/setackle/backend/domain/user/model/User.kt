@@ -148,13 +148,6 @@ class User private constructor(
     }
 
     /**
-     * 비밀번호 매치 확인
-     */
-    fun matchesPassword(rawPassword: String, encoder: (String) -> String): Boolean {
-        return password.matches(rawPassword, encoder)
-    }
-
-    /**
      * 로그인 가능 여부 확인
      */
     fun canLogin(): Boolean {
