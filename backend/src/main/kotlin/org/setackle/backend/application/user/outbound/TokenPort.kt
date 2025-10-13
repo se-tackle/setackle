@@ -33,4 +33,10 @@ interface TokenPort {
      * 토큰 해석
      */
     fun resolveToken(bearerToken: String?): String?
+
+    /**
+     * 토큰 유효기간 조회 (초 단위)
+     */
+    fun getAccessTokenValiditySeconds(): Long
+    fun getRefreshTokenValiditySeconds(): Long
 }

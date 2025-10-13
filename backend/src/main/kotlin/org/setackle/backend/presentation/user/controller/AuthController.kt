@@ -3,13 +3,18 @@ package org.setackle.backend.presentation.user.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
+import org.setackle.backend.application.user.inbound.*
 import org.setackle.backend.presentation.common.ApiResponse
 import org.setackle.backend.presentation.user.dto.*
-import org.setackle.backend.application.user.inbound.*
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseCookie
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
+import java.time.Duration
 
 @Tag(name = "Authentication", description = "인증 관련 API")
 @RestController
@@ -20,6 +25,11 @@ class AuthController(
     private val logoutUseCase: LogoutUseCase,
     private val logoutAllSessionsUseCase: LogoutAllSessionsUseCase,
     private val refreshTokenUseCase: RefreshTokenUseCase,
+
+    @Value("\${app.security.cookie.secure}") private val cookieSecure: Boolean,
+    @Value("\${app.security.cookie.same-site}") private val cookieSameSite: String,
+    @Value("\${app.security.cookie.domain}") private val cookieDomain: String,
+    @Value("\${app.security.cookie.max-age-days}") private val cookieMaxAgeDays: Long,
 ) {
 
     @Operation(summary = "회원가입", description = "새로운 사용자 계정을 생성합니다.")
@@ -40,18 +50,18 @@ class AuthController(
     @ResponseStatus(HttpStatus.OK)
     fun login(
         @Valid @RequestBody request: LoginRequest,
-        httpRequest: HttpServletRequest
+        response: HttpServletResponse,
     ): ApiResponse<LoginResponse> {
-        val command = request.toCommand(
-            deviceInfo = extractDeviceInfo(httpRequest),
-            ipAddress = extractIpAddress(httpRequest),
-            userAgent = httpRequest.getHeader("User-Agent")
-        )
-
+        val command = request.toCommand()
         val result = loginUseCase.login(command)
-        val response = LoginResponse.from(result)
 
-        return ApiResponse.success(response)
+        // Refresh Token을 HttpOnly Cookie로 설정
+        setRefreshTokenCookie(response, result.refreshToken)
+
+        // Response Body에는 Access Token만 포함 (Refresh Token 제거)
+        val loginResponse = LoginResponse.from(result)
+
+        return ApiResponse.success(loginResponse)
     }
 
     @Operation(summary = "로그아웃", description = "현재 세션을 로그아웃합니다.")
@@ -60,15 +70,14 @@ class AuthController(
     fun logout(
         @AuthenticationPrincipal userId: Long,
         @RequestBody(required = false) request: LogoutRequest?,
-        httpRequest: HttpServletRequest
+        httpRequest: HttpServletRequest,
     ): ApiResponse<LogoutResponse> {
-
         val command = request.toCommand(
             userId = userId,
             reason = "USER_LOGOUT",
             deviceInfo = extractDeviceInfo(httpRequest),
             ipAddress = extractIpAddress(httpRequest),
-            userAgent = httpRequest.getHeader("User-Agent")
+            userAgent = httpRequest.getHeader("User-Agent"),
         )
 
         val result = logoutUseCase.logout(command)
@@ -83,12 +92,11 @@ class AuthController(
     fun logoutAllSessions(
         @AuthenticationPrincipal userId: Long,
         @RequestBody(required = false) request: LogoutAllRequest?,
-        httpRequest: HttpServletRequest
+        httpRequest: HttpServletRequest,
     ): ApiResponse<LogoutAllResponse> {
-
         val command = request.toCommand(
             userId = userId,
-            reason = "USER_LOGOUT_ALL"
+            reason = "USER_LOGOUT_ALL",
         )
 
         val result = logoutAllSessionsUseCase.logoutAllSessions(command)
@@ -114,6 +122,52 @@ class AuthController(
         val response = RefreshTokenResponse.from(result)
 
         return ApiResponse.success(response)
+    }
+
+    /**
+     * Refresh Token을 HttpOnly Cookie로 설정
+     *
+     * @param response HttpServletResponse
+     * @param refreshToken Refresh Token 값
+     */
+    private fun setRefreshTokenCookie(
+        response: HttpServletResponse,
+        refreshToken: String,
+    ) {
+        val cookieBuilder = ResponseCookie
+            .from("refreshToken", refreshToken)
+            .httpOnly(true) // JavaScript 접근 차단 (XSS 방어)
+            .secure(cookieSecure) // HTTPS에서만 전송 (환경별 설정)
+            .path("/api/auth") // 특정 경로에만 전송
+            .maxAge(Duration.ofDays(cookieMaxAgeDays)) // 유효기간
+            .sameSite(cookieSameSite) // CSRF 방어 (Strict/Lax/None)
+
+        // Domain 설정 (프로덕션 환경에서만)
+        if (cookieDomain.isNotBlank()) {
+            cookieBuilder.domain(cookieDomain)
+        }
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookieBuilder.build().toString())
+    }
+
+    /**
+     * Refresh Token Cookie 삭제 (로그아웃 시 사용)
+     */
+    private fun clearRefreshTokenCookie(response: HttpServletResponse) {
+        val cookieBuilder = ResponseCookie
+            .from("refreshToken", "")
+            .httpOnly(true)
+            .secure(cookieSecure)
+            .path("/api/auth")
+            .maxAge(0) // 즉시 만료
+            .sameSite(cookieSameSite)
+
+        // Domain 설정 (생성 시와 동일하게 설정해야 삭제됨!)
+        if (cookieDomain.isNotBlank()) {
+            cookieBuilder.domain(cookieDomain)
+        }
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookieBuilder.build().toString())
     }
 
     private fun extractDeviceInfo(request: HttpServletRequest): String? {

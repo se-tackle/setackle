@@ -13,10 +13,6 @@ interface LoginUseCase {
 data class LoginCommand(
     val email: String,
     val password: String,
-    val deviceInfo: String? = null,
-    val ipAddress: String? = null,
-    val userAgent: String? = null,
-    val rememberMe: Boolean = false
 )
 
 /**
@@ -28,6 +24,5 @@ data class LoginResult(
     val username: String,
     val accessToken: String,
     val refreshToken: String,
-    val sessionId: String,
-    val expiresIn: Long // Access Token 만료 시간 (초)
+    val expiresIn: Long, // Access Token 만료 시간 (초)
 )

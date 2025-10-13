@@ -15,25 +15,15 @@ data class LoginRequest(
 
     @field:NotBlank(message = "비밀번호는 필수입니다.")
     val password: String,
-
-    val rememberMe: Boolean? = false
 )
 
 /**
  * LoginRequest -> LoginCommand 변환
  */
-fun LoginRequest.toCommand(
-    deviceInfo: String?,
-    ipAddress: String?,
-    userAgent: String?
-): LoginCommand {
+fun LoginRequest.toCommand(): LoginCommand {
     return LoginCommand(
         email = this.email,
         password = this.password,
-        deviceInfo = deviceInfo,
-        ipAddress = ipAddress,
-        userAgent = userAgent,
-        rememberMe = this.rememberMe ?: false
     )
 }
 
@@ -45,9 +35,7 @@ data class LoginResponse(
     val email: String,
     val username: String,
     val accessToken: String,
-    val refreshToken: String,
-    val sessionId: String,
-    val expiresIn: Long
+    val expiresIn: Long,
 ) {
     companion object {
 
@@ -60,9 +48,7 @@ data class LoginResponse(
                 email = result.email,
                 username = result.username,
                 accessToken = result.accessToken,
-                refreshToken = result.refreshToken,
-                sessionId = result.sessionId,
-                expiresIn = result.expiresIn
+                expiresIn = result.expiresIn,
             )
         }
     }
