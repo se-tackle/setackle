@@ -6,9 +6,9 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.setackle.backend.application.user.inbound.*
+import org.setackle.backend.infrastructure.config.CookieProperties
 import org.setackle.backend.presentation.common.ApiResponse
 import org.setackle.backend.presentation.user.dto.*
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
@@ -25,11 +25,7 @@ class AuthController(
     private val logoutUseCase: LogoutUseCase,
     private val logoutAllSessionsUseCase: LogoutAllSessionsUseCase,
     private val refreshTokenUseCase: RefreshTokenUseCase,
-
-    @Value("\${app.security.cookie.secure}") private val cookieSecure: Boolean,
-    @Value("\${app.security.cookie.same-site}") private val cookieSameSite: String,
-    @Value("\${app.security.cookie.domain}") private val cookieDomain: String,
-    @Value("\${app.security.cookie.max-age-days}") private val cookieMaxAgeDays: Long,
+    private val cookieProperties: CookieProperties,
 ) {
 
     @Operation(summary = "회원가입", description = "새로운 사용자 계정을 생성합니다.")
@@ -137,14 +133,14 @@ class AuthController(
         val cookieBuilder = ResponseCookie
             .from("refreshToken", refreshToken)
             .httpOnly(true) // JavaScript 접근 차단 (XSS 방어)
-            .secure(cookieSecure) // HTTPS에서만 전송 (환경별 설정)
+            .secure(cookieProperties.secure) // HTTPS에서만 전송 (환경별 설정)
             .path("/api/auth") // 특정 경로에만 전송
-            .maxAge(Duration.ofDays(cookieMaxAgeDays)) // 유효기간
-            .sameSite(cookieSameSite) // CSRF 방어 (Strict/Lax/None)
+            .maxAge(Duration.ofDays(cookieProperties.maxAgeDays)) // 유효기간
+            .sameSite(cookieProperties.sameSite) // CSRF 방어 (Strict/Lax/None)
 
         // Domain 설정 (프로덕션 환경에서만)
-        if (cookieDomain.isNotBlank()) {
-            cookieBuilder.domain(cookieDomain)
+        if (cookieProperties.domain.isNotBlank()) {
+            cookieBuilder.domain(cookieProperties.domain)
         }
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookieBuilder.build().toString())
@@ -157,14 +153,14 @@ class AuthController(
         val cookieBuilder = ResponseCookie
             .from("refreshToken", "")
             .httpOnly(true)
-            .secure(cookieSecure)
+            .secure(cookieProperties.secure)
             .path("/api/auth")
             .maxAge(0) // 즉시 만료
-            .sameSite(cookieSameSite)
+            .sameSite(cookieProperties.sameSite)
 
         // Domain 설정 (생성 시와 동일하게 설정해야 삭제됨!)
-        if (cookieDomain.isNotBlank()) {
-            cookieBuilder.domain(cookieDomain)
+        if (cookieProperties.domain.isNotBlank()) {
+            cookieBuilder.domain(cookieProperties.domain)
         }
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookieBuilder.build().toString())
