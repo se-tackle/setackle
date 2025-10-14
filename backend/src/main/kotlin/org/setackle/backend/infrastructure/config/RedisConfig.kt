@@ -34,8 +34,13 @@ class RedisConfig {
         return lettuceConnectionFactory
     }
 
-    @Bean
-    fun redisObjectMapper(): ObjectMapper {
+    /**
+     * Redis 전용 ObjectMapper 생성
+     * Spring MVC의 기본 ObjectMapper와 분리하여 Redis 직렬화에만 사용
+     *
+     * @return Redis 직렬화용 ObjectMapper (타입 정보 포함)
+     */
+    private fun createRedisObjectMapper(): ObjectMapper {
         return ObjectMapper().apply {
             // Java 8 날짜/시간 타입 지원 모듈 등록
             registerModule(JavaTimeModule())
@@ -43,7 +48,8 @@ class RedisConfig {
             registerKotlinModule()
             // 날짜를 타임스탬프가 아닌 ISO-8601 형식으로 직렬화
             disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            // 타입 정보 포함 설정 (역직렬화 시 타입 안전성 보장)
+            // 타입 정보 포함 설정 (Redis 역직렬화 시 타입 안전성 보장)
+            // 주의: 이 설정은 Redis에만 필요하며, HTTP 응답에는 사용하지 않음
             activateDefaultTyping(
                 polymorphicTypeValidator,
                 ObjectMapper.DefaultTyping.NON_FINAL,
@@ -54,7 +60,6 @@ class RedisConfig {
     @Bean
     fun redisTemplate(
         connectionFactory: RedisConnectionFactory,
-        redisObjectMapper: ObjectMapper,
     ): RedisTemplate<String, Any> {
         val template = RedisTemplate<String, Any>()
         template.connectionFactory = connectionFactory
@@ -63,7 +68,8 @@ class RedisConfig {
         template.keySerializer = StringRedisSerializer()
         template.hashKeySerializer = StringRedisSerializer()
 
-        // Value serializer - Java 8 날짜/시간 타입을 지원하는 커스텀 ObjectMapper 사용
+        // Value serializer - Redis 전용 ObjectMapper 사용
+        val redisObjectMapper = createRedisObjectMapper()
         val serializer = GenericJackson2JsonRedisSerializer(redisObjectMapper)
         template.valueSerializer = serializer
         template.hashValueSerializer = serializer
