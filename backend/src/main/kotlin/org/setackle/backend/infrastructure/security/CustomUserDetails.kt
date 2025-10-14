@@ -24,7 +24,7 @@ class CustomUserDetails(
 
     override fun isCredentialsNonExpired(): Boolean = true
 
-    override fun isEnabled(): Boolean = user.isActive && user.emailVerified
+    override fun isEnabled(): Boolean = user.isActive
 
     // 추가 사용자 정보 접근 메서드
     fun getUserId(): Long? = user.id?.value
