@@ -24,15 +24,16 @@ class GlobalExceptionHandler {
     ): ResponseEntity<ApiResponse<Nothing>> {
         logger.warn(
             "Business Exception: " +
+                    "ex=${ex.message}, " +
                     "code=${ex.errorCode.code}, " +
-                    "message=${ex.message}, " +
+                    "message=${ex.errorCode.message}, " +
                     "details=${ex.details}, " +
                     "uri=${request.getDescription(false)}"
         )
 
         val errorResponse = ErrorResponse(
             code = ex.errorCode.code,
-            message = ex.message ?: ex.errorCode.message,
+            message = ex.errorCode.message,
             details = ex.details
         )
 
