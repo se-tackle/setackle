@@ -1,6 +1,7 @@
 package org.setackle.backend.presentation.user.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -31,6 +32,7 @@ class AuthController(
 ) {
 
     @Operation(summary = "회원가입", description = "새로운 사용자 계정을 생성합니다.")
+    @SecurityRequirements(value = []) // 인증 불필요
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     fun register(
@@ -44,6 +46,7 @@ class AuthController(
     }
 
     @Operation(summary = "로그인", description = "이메일과 비밀번호로 로그인합니다.")
+    @SecurityRequirements(value = []) // 인증 불필요
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
     fun login(
