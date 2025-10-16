@@ -41,15 +41,6 @@ enum class ErrorCode(
     CANNOT_DELETE_ADMIN(HttpStatus.FORBIDDEN, "U009", "관리자 계정은 삭제할 수 없습니다."),
     ACCOUNT_ALREADY_DELETED(HttpStatus.CONFLICT, "U010", "이미 삭제된 계정입니다."),
 
-    // Session Management
-    SESSION_NOT_FOUND(HttpStatus.NOT_FOUND, "S001", "세션을 찾을 수 없습니다."),
-    SESSION_EXPIRED(HttpStatus.UNAUTHORIZED, "S002", "세션이 만료되었습니다."),
-    SESSION_INVALID(HttpStatus.UNAUTHORIZED, "S003", "유효하지 않은 세션입니다."),
-    TOO_MANY_ACTIVE_SESSIONS(HttpStatus.FORBIDDEN, "S004", "활성 세션 수가 제한을 초과했습니다."),
-    SESSION_DEVICE_MISMATCH(HttpStatus.FORBIDDEN, "S005", "세션과 디바이스 정보가 일치하지 않습니다."),
-    SESSION_IP_MISMATCH(HttpStatus.FORBIDDEN, "S006", "세션과 IP 주소가 일치하지 않습니다."),
-    SESSION_CLEANUP_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "S007", "세션 정리에 실패했습니다."),
-
     // Token Management
     TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "T001", "토큰이 만료되었습니다."),
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "T002", "유효하지 않은 토큰입니다."),

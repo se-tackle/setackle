@@ -6,7 +6,10 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.setackle.backend.application.user.inbound.*
+import org.setackle.backend.common.exception.BusinessException
+import org.setackle.backend.common.exception.ErrorCode
 import org.setackle.backend.infrastructure.config.CookieProperties
+import org.setackle.backend.infrastructure.security.CustomUserDetails
 import org.setackle.backend.presentation.common.ApiResponse
 import org.setackle.backend.presentation.user.dto.*
 import org.springframework.http.HttpHeaders
@@ -23,7 +26,6 @@ class AuthController(
     private val registerUserUseCase: RegisterUserUseCase,
     private val loginUseCase: LoginUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val logoutAllSessionsUseCase: LogoutAllSessionsUseCase,
     private val refreshTokenUseCase: RefreshTokenUseCase,
     private val cookieProperties: CookieProperties,
 ) {
@@ -60,45 +62,34 @@ class AuthController(
         return ApiResponse.success(loginResponse)
     }
 
-    @Operation(summary = "로그아웃", description = "현재 세션을 로그아웃합니다.")
+    @Operation(summary = "로그아웃", description = "사용자 로그아웃합니다.")
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
     fun logout(
-        @AuthenticationPrincipal userId: Long,
-        @RequestBody(required = false) request: LogoutRequest?,
-        httpRequest: HttpServletRequest,
+        @AuthenticationPrincipal userDetails: CustomUserDetails,
+        @RequestHeader(name = "Authorization", required = false) bearerToken: String?,
+        httpResponse: HttpServletResponse,
     ): ApiResponse<LogoutResponse> {
-        val command = request.toCommand(
+
+        val userId = userDetails.getUserId()
+            ?: throw BusinessException(
+                ErrorCode.USER_NOT_FOUND,
+                mapOf("reason" to "User ID not found in authentication")
+            )
+
+        val command = LogoutCommand(
             userId = userId,
-            reason = "USER_LOGOUT",
-            deviceInfo = extractDeviceInfo(httpRequest),
-            ipAddress = extractIpAddress(httpRequest),
-            userAgent = httpRequest.getHeader("User-Agent"),
+            bearerToken = bearerToken,
         )
 
         val result = logoutUseCase.logout(command)
-        val response = LogoutResponse.from(result)
 
-        return ApiResponse.success(response)
-    }
+        // Refresh Token Cookie 삭제
+        clearRefreshTokenCookie(httpResponse)
 
-    @Operation(summary = "모든 세션 로그아웃", description = "사용자의 모든 활성 세션을 로그아웃합니다.")
-    @PostMapping("/logout-all")
-    @ResponseStatus(HttpStatus.OK)
-    fun logoutAllSessions(
-        @AuthenticationPrincipal userId: Long,
-        @RequestBody(required = false) request: LogoutAllRequest?,
-        httpRequest: HttpServletRequest,
-    ): ApiResponse<LogoutAllResponse> {
-        val command = request.toCommand(
-            userId = userId,
-            reason = "USER_LOGOUT_ALL",
-        )
+        val logoutResponse = LogoutResponse.from(result)
 
-        val result = logoutAllSessionsUseCase.logoutAllSessions(command)
-        val response = LogoutAllResponse.from(result)
-
-        return ApiResponse.success(response)
+        return ApiResponse.success(logoutResponse)
     }
 
     @Operation(summary = "토큰 갱신", description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다.")
@@ -106,13 +97,8 @@ class AuthController(
     @ResponseStatus(HttpStatus.OK)
     fun refreshToken(
         @Valid @RequestBody request: RefreshTokenRequest,
-        httpRequest: HttpServletRequest
     ): ApiResponse<RefreshTokenResponse> {
-        val command = request.toCommand(
-            deviceInfo = extractDeviceInfo(httpRequest),
-            ipAddress = extractIpAddress(httpRequest),
-            userAgent = httpRequest.getHeader("User-Agent")
-        )
+        val command = request.toCommand()
 
         val result = refreshTokenUseCase.execute(command)
         val response = RefreshTokenResponse.from(result)
@@ -164,26 +150,5 @@ class AuthController(
         }
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookieBuilder.build().toString())
-    }
-
-    private fun extractDeviceInfo(request: HttpServletRequest): String? {
-        val userAgent = request.getHeader("User-Agent") ?: return null
-        // 간단한 기기 정보 추출 (실제로는 더 정교한 파싱 필요)
-        return when {
-            userAgent.contains("Mobile") -> "Mobile"
-            userAgent.contains("Tablet") -> "Tablet"
-            else -> "Desktop"
-        }
-    }
-
-    private fun extractIpAddress(request: HttpServletRequest): String? {
-        val xForwardedFor = request.getHeader("X-Forwarded-For")
-        val xRealIp = request.getHeader("X-Real-IP")
-
-        return when {
-            !xForwardedFor.isNullOrBlank() -> xForwardedFor.split(",")[0].trim()
-            !xRealIp.isNullOrBlank() -> xRealIp
-            else -> request.remoteAddr
-        }
     }
 }

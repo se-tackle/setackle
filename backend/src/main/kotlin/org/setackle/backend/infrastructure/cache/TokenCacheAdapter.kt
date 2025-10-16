@@ -2,8 +2,6 @@ package org.setackle.backend.infrastructure.cache
 
 import org.setackle.backend.application.user.outbound.RefreshTokenData
 import org.setackle.backend.application.user.outbound.TokenCachePort
-import org.setackle.backend.application.user.outbound.TokenMetadata
-import org.setackle.backend.application.user.outbound.UserSessionData
 import org.springframework.stereotype.Component
 import java.time.Duration
 
@@ -34,25 +32,5 @@ class TokenCacheAdapter(
 
     override fun isTokenBlacklisted(token: String): Boolean {
         return tokenCacheRepository.isTokenBlacklisted(token)
-    }
-
-    override fun saveUserSession(userId: Long, sessionData: UserSessionData, ttl: Duration) {
-        tokenCacheRepository.saveUserSession(userId, sessionData, ttl)
-    }
-
-    override fun getUserSession(userId: Long): UserSessionData? {
-        return tokenCacheRepository.getUserSession(userId)
-    }
-
-    override fun deleteUserSession(userId: Long) {
-        tokenCacheRepository.deleteUserSession(userId)
-    }
-
-    override fun saveTokenMetadata(tokenId: String, metadata: TokenMetadata, ttl: Duration) {
-        tokenCacheRepository.saveTokenMetadata(tokenId, metadata, ttl)
-    }
-
-    override fun getTokenMetadata(tokenId: String): TokenMetadata? {
-        return tokenCacheRepository.getTokenMetadata(tokenId)
     }
 }

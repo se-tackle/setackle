@@ -1,7 +1,6 @@
 package org.setackle.backend.application.user.inbound
 
 import org.setackle.backend.domain.user.vo.RefreshToken
-import org.setackle.backend.domain.user.vo.SessionInfo
 import org.setackle.backend.domain.user.vo.TokenPair
 
 /**
@@ -16,7 +15,6 @@ interface RefreshTokenUseCase {
  */
 data class RefreshTokenCommand(
     val refreshToken: RefreshToken,
-    val sessionInfo: SessionInfo
 )
 
 /**

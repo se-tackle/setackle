@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank
 import org.setackle.backend.application.user.inbound.RefreshTokenCommand
 import org.setackle.backend.application.user.inbound.RefreshTokenResult
 import org.setackle.backend.domain.user.vo.RefreshToken
-import org.setackle.backend.domain.user.vo.SessionInfo
 
 /**
  * 토큰 갱신 요청 DTO
@@ -17,14 +16,9 @@ data class RefreshTokenRequest(
 /**
  * RefreshTokenRequest -> RefreshTokenCommand 변환
  */
-fun RefreshTokenRequest.toCommand(
-    deviceInfo: String?,
-    ipAddress: String?,
-    userAgent: String?
-): RefreshTokenCommand {
+fun RefreshTokenRequest.toCommand(): RefreshTokenCommand {
     return RefreshTokenCommand(
         refreshToken = RefreshToken(this.refreshToken),
-        sessionInfo = SessionInfo.of(deviceInfo, ipAddress, userAgent)
     )
 }
 
