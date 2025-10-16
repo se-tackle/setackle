@@ -12,7 +12,7 @@ interface TokenCachePort {
      * Refresh Token 관리
      */
     fun saveRefreshToken(userId: Long, refreshToken: String, ttl: Duration)
-    fun getRefreshToken(userId: Long): RefreshTokenData?
+    fun getRefreshToken(userId: Long): String?
     fun deleteRefreshToken(userId: Long)
 
     /**
@@ -21,14 +21,3 @@ interface TokenCachePort {
     fun addToBlacklist(token: String, ttl: Duration)
     fun isTokenBlacklisted(token: String): Boolean
 }
-
-/**
- * Refresh Token 데이터
- */
-data class RefreshTokenData(
-    val token: String,
-    val userId: Long,
-    val createdAt: LocalDateTime,
-    val expiresAt: LocalDateTime,
-)
-

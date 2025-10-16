@@ -1,7 +1,5 @@
 package org.setackle.backend.infrastructure.cache
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.setackle.backend.application.user.outbound.RefreshTokenData
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 import java.time.Duration
@@ -10,7 +8,6 @@ import java.time.LocalDateTime
 @Repository
 class TokenCacheRepository(
     private val redisTemplate: RedisTemplate<String, Any>,
-    private val objectMapper: ObjectMapper,
 ) {
 
     companion object {
@@ -19,28 +16,19 @@ class TokenCacheRepository(
     }
 
     /**
-     * Refresh Token 저장
+     * Refresh Token 저장 (단순 String 저장)
      */
     fun saveRefreshToken(userId: Long, refreshToken: String, ttl: Duration) {
         val key = "${REFRESH_TOKEN_PREFIX}$userId"
-        val tokenData = RefreshTokenData(
-            token = refreshToken,
-            userId = userId,
-            createdAt = LocalDateTime.now(),
-            expiresAt = LocalDateTime.now().plusSeconds(ttl.seconds),
-        )
-
-        redisTemplate.opsForValue().set(key, tokenData, ttl)
+        redisTemplate.opsForValue().set(key, refreshToken, ttl)
     }
 
     /**
-     * 사용자 ID로 Refresh Token 조회
+     * 사용자 ID로 Refresh Token 조회 (String 반환)
      */
-    fun getRefreshToken(userId: Long): RefreshTokenData? {
+    fun getRefreshToken(userId: Long): String? {
         val key = "${REFRESH_TOKEN_PREFIX}$userId"
-        return redisTemplate.opsForValue().get(key)?.let {
-            objectMapper.convertValue(it, RefreshTokenData::class.java)
-        }
+        return redisTemplate.opsForValue().get(key) as? String
     }
 
     /**

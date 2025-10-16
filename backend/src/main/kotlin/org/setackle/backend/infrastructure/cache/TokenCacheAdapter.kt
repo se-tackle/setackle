@@ -1,6 +1,5 @@
 package org.setackle.backend.infrastructure.cache
 
-import org.setackle.backend.application.user.outbound.RefreshTokenData
 import org.setackle.backend.application.user.outbound.TokenCachePort
 import org.springframework.stereotype.Component
 import java.time.Duration
@@ -18,7 +17,7 @@ class TokenCacheAdapter(
         tokenCacheRepository.saveRefreshToken(userId, refreshToken, ttl)
     }
 
-    override fun getRefreshToken(userId: Long): RefreshTokenData? {
+    override fun getRefreshToken(userId: Long): String? {
         return tokenCacheRepository.getRefreshToken(userId)
     }
 
