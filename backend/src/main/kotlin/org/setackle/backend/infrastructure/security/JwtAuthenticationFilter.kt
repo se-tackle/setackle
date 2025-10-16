@@ -3,6 +3,7 @@ package org.setackle.backend.infrastructure.security
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.setackle.backend.application.user.outbound.TokenCachePort
 import org.setackle.backend.infrastructure.config.JwtConfig
 import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -16,7 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter
 class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider,
     private val userDetailsService: CustomUserDetailsService,
-    private val jwtConfig: JwtConfig
+    private val jwtConfig: JwtConfig,
+    private val tokenCachePort: TokenCachePort,
 ) : OncePerRequestFilter() {
 
     private val logger = LoggerFactory.getLogger(JwtAuthenticationFilter::class.java)
@@ -30,6 +32,12 @@ class JwtAuthenticationFilter(
             val jwt = getJwtFromRequest(request)
 
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
+                if (tokenCachePort.isTokenBlacklisted(jwt)) {
+                    logger.warn("블랙리스트에 등록된 토큰으로 요청됨")
+                    filterChain.doFilter(request, response)
+                    return
+                }
+
                 if (!jwtTokenProvider.isAccessToken(jwt)) {
                     logger.warn("Access Token이 아닌 토큰으로 요청됨")
                     filterChain.doFilter(request, response)

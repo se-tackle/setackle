@@ -52,6 +52,7 @@ enum class ErrorCode(
     TOKEN_METADATA_NOT_FOUND(HttpStatus.NOT_FOUND, "T008", "토큰 메타데이터를 찾을 수 없습니다."),
     TOKEN_REFRESH_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "T009", "토큰 갱신에 실패했습니다."),
     SECURITY_EVENT_LOGGING_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "T010", "보안 이벤트 로깅에 실패했습니다."),
+    TOKEN_BLACKLIST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "T011", "토큰 블랙리스트 등록에 실패했습니다."),
 
     // Resource
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "요청한 리소스를 찾을 수 없습니다.")
