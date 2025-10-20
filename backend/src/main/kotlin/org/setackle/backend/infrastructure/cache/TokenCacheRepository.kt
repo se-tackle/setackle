@@ -43,9 +43,9 @@ class TokenCacheRepository(
      * 토큰을 블랙리스트에 추가
      */
     fun addToBlacklist(token: String, ttl: Duration) {
-        val key = "${TOKEN_BLACKLIST_PREFIX}${token.hashCode()}"
+        val key = "${TOKEN_BLACKLIST_PREFIX}${token}"
         val blacklistData = TokenBlacklistData(
-            tokenHash = token.hashCode().toString(),
+            token = token,
             blacklistedAt = LocalDateTime.now(),
             reason = "LOGOUT",
         )
@@ -57,7 +57,7 @@ class TokenCacheRepository(
      * 토큰이 블랙리스트에 있는지 확인
      */
     fun isTokenBlacklisted(token: String): Boolean {
-        val key = "${TOKEN_BLACKLIST_PREFIX}${token.hashCode()}"
+        val key = "${TOKEN_BLACKLIST_PREFIX}${token}"
         return redisTemplate.hasKey(key)
     }
 
@@ -78,7 +78,7 @@ class TokenCacheRepository(
  * 토큰 블랙리스트 데이터 클래스
  */
 data class TokenBlacklistData(
-    val tokenHash: String,
+    val token: String,
     val blacklistedAt: LocalDateTime,
     val reason: String = "LOGOUT",
 )
