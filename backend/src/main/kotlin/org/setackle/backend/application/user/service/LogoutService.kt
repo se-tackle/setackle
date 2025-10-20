@@ -59,34 +59,17 @@ class LogoutService(
      */
     private fun invalidateTokenPair(
         userId: Long,
-        accessToken: String?,
-        refreshToken: String?
+        accessToken: String,
+        refreshToken: String,
     ) {
-        try {
-            // Access Token 블랙리스트 추가
-            accessToken?.let {
-                logger.info("Access Token 블랙리스트 추가 시도: userId=$userId")
-                addToBlacklist(it)
-            }
+        logger.info("Token 블랙리스트 추가 시도: userId=$userId")
 
-            // Refresh Token 블랙리스트 추가
-            refreshToken?.let {
-                logger.info("Refresh Token 블랙리스트 추가 시도: userId=$userId")
-                addToBlacklist(it)
-            }
+        addToBlacklist(accessToken)
+        addToBlacklist(refreshToken)
 
-            // Refresh Token 캐시 삭제
-            tokenCachePort.deleteRefreshToken(userId)
+        tokenCachePort.deleteRefreshToken(userId)
 
-            logger.info("사용자 $userId 의 모든 토큰이 무효화됨")
-
-        } catch (e: Exception) {
-            logger.error("사용자 토큰 일괄 무효화 중 오류 발생", e)
-            throw BusinessException(ErrorCode.TOKEN_BLACKLIST_FAILED)
-        } catch (e: BusinessException) {
-            logger.error("토큰 무효화 실패: userId=$userId")
-            throw e
-        }
+        logger.info("사용자 $userId 의 모든 토큰이 무효화됨")
     }
 
     /**
@@ -96,6 +79,8 @@ class LogoutService(
      * @throws BusinessException 토큰 검증 실패 또는 블랙리스트 추가 실패 시
      */
     private fun addToBlacklist(token: String) {
+        logger.info("${if (tokenPort.isAccessToken(token)) "Access" else "Refresh"} Token 블랙리스트 추가 시도")
+
         if (!tokenPort.validateToken(token)) {
             logger.warn("유효하지 않은 토큰을 블랙리스트에 추가 시도: ${token.take(10)}...")
             throw BusinessException(ErrorCode.TOKEN_INVALID)
