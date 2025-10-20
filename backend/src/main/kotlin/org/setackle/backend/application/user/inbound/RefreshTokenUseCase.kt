@@ -1,7 +1,6 @@
 package org.setackle.backend.application.user.inbound
 
 import org.setackle.backend.domain.user.vo.RefreshToken
-import org.setackle.backend.domain.user.vo.TokenPair
 
 /**
  * Access Token 갱신 유스케이스
@@ -21,6 +20,8 @@ data class RefreshTokenCommand(
  * 토큰 갱신 결과
  */
 data class RefreshTokenResult(
-    val tokenPair: TokenPair,
-    val refreshTokenUpdated: Boolean = false
+    val userId: Long,
+    val accessToken: String,
+    val refreshToken: String,
+    val expiresIn: Long,
 )

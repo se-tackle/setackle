@@ -78,10 +78,13 @@ class SecurityConfig(
     @Bean
     fun corsFilter(): CorsFilter {
         val config = CorsConfiguration().apply {
-            addAllowedOriginPattern("*")
+            // allowCredentials = true일 때는 명시적인 origin 지정 필요 (패턴 불가)
+            addAllowedOrigin("http://localhost:3000") // 프론트엔드
+            addAllowedOrigin("http://localhost:8080") // Swagger UI
             addAllowedHeader("*")
             addAllowedMethod("*")
-            allowCredentials = false
+            allowCredentials = true // Cookie 전송을 위해 필수!
+            exposedHeaders = listOf("Set-Cookie") // Set-Cookie 헤더 노출
         }
 
         val source = UrlBasedCorsConfigurationSource().apply {

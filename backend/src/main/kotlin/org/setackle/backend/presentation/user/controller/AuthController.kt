@@ -3,12 +3,12 @@ package org.setackle.backend.presentation.user.controller
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.security.SecurityRequirements
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import org.setackle.backend.application.user.inbound.*
 import org.setackle.backend.common.exception.BusinessException
 import org.setackle.backend.common.exception.ErrorCode
+import org.setackle.backend.domain.user.vo.RefreshToken
 import org.setackle.backend.infrastructure.config.CookieProperties
 import org.setackle.backend.infrastructure.security.CustomUserDetails
 import org.setackle.backend.presentation.common.ApiResponse
@@ -95,15 +95,36 @@ class AuthController(
         return ApiResponse.success(logoutResponse)
     }
 
-    @Operation(summary = "토큰 갱신", description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다.")
+    @Operation(
+        summary = "토큰 갱신",
+        description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다."
+    )
+    @SecurityRequirements(value = []) // 인증 불필요
     @PostMapping("/refresh")
     @ResponseStatus(HttpStatus.OK)
     fun refreshToken(
-        @Valid @RequestBody request: RefreshTokenRequest,
+        @CookieValue(name = "refreshToken", required = false) cookieRefreshToken: String?,
+        httpResponse: HttpServletResponse,
     ): ApiResponse<RefreshTokenResponse> {
-        val command = request.toCommand()
+
+        // Cookie에서 Refresh Token 가져오기
+        val refreshToken = cookieRefreshToken
+            ?: throw BusinessException(
+                ErrorCode.INVALID_INPUT_VALUE,
+                mapOf(
+                    "field" to "refreshToken",
+                    "message" to "Refresh Token이 필요합니다."
+                ),
+            )
+
+        val command = RefreshTokenCommand(
+            refreshToken = RefreshToken(refreshToken),
+        )
 
         val result = refreshTokenUseCase.execute(command)
+
+        setRefreshTokenCookie(httpResponse, result.refreshToken)
+
         val response = RefreshTokenResponse.from(result)
 
         return ApiResponse.success(response)
