@@ -20,7 +20,7 @@ class OpenApiConfig {
                 Info()
                     .title("Setackle API")
                     .description("Setackle Backend REST API Documentation")
-                    .version("1.0.0")
+                    .version("1.0.0"),
             )
             .addSecurityItem(SecurityRequirement().addList(securitySchemeName))
             .components(
@@ -32,8 +32,8 @@ class OpenApiConfig {
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer")
                             .bearerFormat("JWT")
-                            .description("JWT 토큰을 입력하세요 (Bearer 접두사 제외)")
-                    )
+                            .description("JWT 토큰을 입력하세요 (Bearer 접두사 제외)"),
+                    ),
             )
     }
 }

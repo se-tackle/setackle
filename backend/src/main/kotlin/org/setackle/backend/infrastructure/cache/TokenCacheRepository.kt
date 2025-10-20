@@ -43,7 +43,7 @@ class TokenCacheRepository(
      * 토큰을 블랙리스트에 추가
      */
     fun addToBlacklist(token: String, ttl: Duration) {
-        val key = "${TOKEN_BLACKLIST_PREFIX}${token}"
+        val key = "${TOKEN_BLACKLIST_PREFIX}$token"
         val blacklistData = TokenBlacklistData(
             token = token,
             blacklistedAt = LocalDateTime.now(),
@@ -57,7 +57,7 @@ class TokenCacheRepository(
      * 토큰이 블랙리스트에 있는지 확인
      */
     fun isTokenBlacklisted(token: String): Boolean {
-        val key = "${TOKEN_BLACKLIST_PREFIX}${token}"
+        val key = "${TOKEN_BLACKLIST_PREFIX}$token"
         return redisTemplate.hasKey(key)
     }
 

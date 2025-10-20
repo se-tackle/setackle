@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus
 enum class ErrorCode(
     val status: HttpStatus,
     val code: String,
-    val message: String
+    val message: String,
 ) {
     // Common
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "C001", "입력 값이 유효하지 않습니다."),
@@ -55,5 +55,5 @@ enum class ErrorCode(
     TOKEN_BLACKLIST_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "T011", "토큰 블랙리스트 등록에 실패했습니다."),
 
     // Resource
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "요청한 리소스를 찾을 수 없습니다.")
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "R001", "요청한 리소스를 찾을 수 없습니다."),
 }

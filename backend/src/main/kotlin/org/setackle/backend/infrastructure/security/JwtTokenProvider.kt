@@ -4,8 +4,8 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
-import org.setackle.backend.infrastructure.config.JwtConfig
 import org.setackle.backend.domain.user.vo.UserRole
+import org.setackle.backend.infrastructure.config.JwtConfig
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
@@ -17,7 +17,7 @@ import javax.crypto.SecretKey
 
 @Component
 class JwtTokenProvider(
-    private val jwtConfig: JwtConfig
+    private val jwtConfig: JwtConfig,
 ) {
     private val logger = LoggerFactory.getLogger(JwtTokenProvider::class.java)
 

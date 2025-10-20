@@ -17,8 +17,16 @@ interface QuestionOptionJpaRepository : JpaRepository<QuestionOptionJpaEntity, L
     @Query("SELECT qo FROM QuestionOptionJpaEntity qo WHERE qo.questionId = :questionId AND qo.isCorrect = true")
     fun findCorrectOptionsByQuestionId(@Param("questionId") questionId: Long): List<QuestionOptionJpaEntity>
 
-    @Query("SELECT qo FROM QuestionOptionJpaEntity qo WHERE qo.questionId IN :questionIds ORDER BY qo.questionId, qo.orderIndex")
-    fun findByQuestionIdInOrderByQuestionIdAndOrderIndex(@Param("questionIds") questionIds: List<Long>): List<QuestionOptionJpaEntity>
+    @Query(
+        """
+        SELECT qo FROM QuestionOptionJpaEntity qo
+        WHERE qo.questionId IN :questionIds
+        ORDER BY qo.questionId, qo.orderIndex
+        """,
+    )
+    fun findByQuestionIdInOrderByQuestionIdAndOrderIndex(
+        @Param("questionIds") questionIds: List<Long>,
+    ): List<QuestionOptionJpaEntity>
 
     @Query("SELECT COUNT(qo) FROM QuestionOptionJpaEntity qo WHERE qo.questionId = :questionId")
     fun countByQuestionId(@Param("questionId") questionId: Long): Long

@@ -25,7 +25,7 @@ data class RegisterRequest(
     val password: String,
 
     @field:NotBlank(message = "비밀번호 확인은 필수입니다.")
-    val confirmPassword: String
+    val confirmPassword: String,
 )
 
 /**

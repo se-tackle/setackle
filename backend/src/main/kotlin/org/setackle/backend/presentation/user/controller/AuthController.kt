@@ -73,11 +73,10 @@ class AuthController(
         @RequestHeader(name = "Authorization", required = false) bearerToken: String?,
         httpResponse: HttpServletResponse,
     ): ApiResponse<LogoutResponse> {
-
         val userId = userDetails.getUserId()
             ?: throw BusinessException(
                 ErrorCode.USER_NOT_FOUND,
-                mapOf("reason" to "User ID not found in authentication")
+                mapOf("reason" to "User ID not found in authentication"),
             )
 
         val command = LogoutCommand(
@@ -97,7 +96,7 @@ class AuthController(
 
     @Operation(
         summary = "토큰 갱신",
-        description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다."
+        description = "Refresh Token을 사용하여 새로운 Access Token을 발급받습니다.",
     )
     @SecurityRequirements(value = []) // 인증 불필요
     @PostMapping("/refresh")
@@ -106,14 +105,13 @@ class AuthController(
         @CookieValue(name = "refreshToken", required = false) cookieRefreshToken: String?,
         httpResponse: HttpServletResponse,
     ): ApiResponse<RefreshTokenResponse> {
-
         // Cookie에서 Refresh Token 가져오기
         val refreshToken = cookieRefreshToken
             ?: throw BusinessException(
                 ErrorCode.INVALID_INPUT_VALUE,
                 mapOf(
                     "field" to "refreshToken",
-                    "message" to "Refresh Token이 필요합니다."
+                    "message" to "Refresh Token이 필요합니다.",
                 ),
             )
 

@@ -23,7 +23,7 @@ import org.springframework.web.filter.CorsFilter
 class SecurityConfig(
     private val jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
     private val jwtAccessDeniedHandler: JwtAccessDeniedHandler,
-    private val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
 ) {
 
     @Bean
@@ -50,24 +50,21 @@ class SecurityConfig(
                         "/actuator/health",
                         "/actuator/info",
                         "/actuator/metrics",
-                        "/actuator/prometheus"
+                        "/actuator/prometheus",
                     ).permitAll()
-
                     // API documentation
                     .requestMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/swagger-resources/**",
-                        "/webjars/**"
+                        "/webjars/**",
                     ).permitAll()
-
                     // Authentication endpoints
                     .requestMatchers(
                         "/api/auth/login",
                         "/api/auth/register",
-                        "/api/auth/refresh"
+                        "/api/auth/refresh",
                     ).permitAll()
-
                     // All other requests require authentication
                     .anyRequest().authenticated()
             }

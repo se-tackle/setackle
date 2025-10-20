@@ -8,7 +8,7 @@ import org.setackle.backend.application.user.inbound.RefreshTokenResult
 data class RefreshTokenResponse(
     val userId: Long,
     val accessToken: String,
-    val expiresIn: Long
+    val expiresIn: Long,
 ) {
     companion object {
 
@@ -19,7 +19,7 @@ data class RefreshTokenResponse(
             return RefreshTokenResponse(
                 userId = result.userId,
                 accessToken = result.accessToken,
-                expiresIn = result.expiresIn
+                expiresIn = result.expiresIn,
             )
         }
     }

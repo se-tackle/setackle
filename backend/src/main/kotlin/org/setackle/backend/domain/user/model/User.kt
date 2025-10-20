@@ -44,7 +44,7 @@ class User private constructor(
             email: Email,
             username: Username,
             password: Password,
-            role: UserRole = UserRole.USER
+            role: UserRole = UserRole.USER,
         ): User {
             val user = User(
                 id = UserId.newUser(),
@@ -53,7 +53,7 @@ class User private constructor(
                 password = password,
                 role = role,
                 _isActive = true,
-                _emailVerified = false
+                _emailVerified = false,
             )
 
             return user

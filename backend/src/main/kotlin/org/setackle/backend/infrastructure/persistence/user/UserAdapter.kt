@@ -46,9 +46,10 @@ class UserAdapter(
         val domainUser = savedEntity.toDomain()
 
         domainUser.updateIdAfterPersistence(
-            UserId.of(savedEntity.id
-                ?: throw IllegalArgumentException("Cannot update UserId without ID")
-            )
+            UserId.of(
+                savedEntity.id
+                    ?: throw IllegalArgumentException("Cannot update UserId without ID"),
+            ),
         )
 
         return domainUser

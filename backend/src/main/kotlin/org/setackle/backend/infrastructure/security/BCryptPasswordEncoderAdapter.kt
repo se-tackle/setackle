@@ -1,8 +1,8 @@
 package org.setackle.backend.infrastructure.security
 
 import org.setackle.backend.application.user.outbound.PasswordEncoderPort
-import org.springframework.security.crypto.password.PasswordEncoder as SpringPasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.security.crypto.password.PasswordEncoder as SpringPasswordEncoder
 
 /**
  * BCrypt 기반 비밀번호 인코더 어댑터
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class BCryptPasswordEncoderAdapter(
-    private val springPasswordEncoder: SpringPasswordEncoder
+    private val springPasswordEncoder: SpringPasswordEncoder,
 ) : PasswordEncoderPort {
 
     override fun encode(rawPassword: String): String {

@@ -1,9 +1,9 @@
 package org.setackle.backend.presentation.exception
 
-import org.setackle.backend.presentation.common.ApiResponse
-import org.setackle.backend.presentation.common.ErrorResponse
 import org.setackle.backend.common.exception.BusinessException
 import org.setackle.backend.common.exception.ErrorCode
+import org.setackle.backend.presentation.common.ApiResponse
+import org.setackle.backend.presentation.common.ErrorResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -20,21 +20,21 @@ class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(
         ex: BusinessException,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<ApiResponse<Nothing>> {
         logger.warn(
             "Business Exception: " +
-                    "ex=${ex.message}, " +
-                    "code=${ex.errorCode.code}, " +
-                    "message=${ex.errorCode.message}, " +
-                    "details=${ex.details}, " +
-                    "uri=${request.getDescription(false)}"
+                "ex=${ex.message}, " +
+                "code=${ex.errorCode.code}, " +
+                "message=${ex.errorCode.message}, " +
+                "details=${ex.details}, " +
+                "uri=${request.getDescription(false)}",
         )
 
         val errorResponse = ErrorResponse(
             code = ex.errorCode.code,
             message = ex.errorCode.message,
-            details = ex.details
+            details = ex.details,
         )
 
         return ResponseEntity(ApiResponse.Companion.error(errorResponse), ex.errorCode.status)
@@ -43,7 +43,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidationExceptions(
         ex: MethodArgumentNotValidException,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<ApiResponse<Nothing>> {
         val errors = ex.bindingResult.allErrors.associate { error ->
             val fieldName = if (error is FieldError) {
@@ -60,7 +60,7 @@ class GlobalExceptionHandler {
         val errorResponse = ErrorResponse(
             code = errorCode.code,
             message = errorCode.message,
-            details = errors
+            details = errors,
         )
 
         return ResponseEntity(ApiResponse.Companion.error(errorResponse), errorCode.status)
@@ -69,7 +69,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(Exception::class)
     fun handleGenericException(
         ex: Exception,
-        request: WebRequest
+        request: WebRequest,
     ): ResponseEntity<ApiResponse<Nothing>> {
         logger.error("Uncaught Exception: ${ex.message}, uri=${request.getDescription(false)}", ex)
 

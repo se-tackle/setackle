@@ -5,5 +5,5 @@ import org.setackle.backend.common.exception.ErrorCode
 
 class UserNotFoundException(userId: Long) : BusinessException(
     ErrorCode.USER_NOT_FOUND,
-    details = mapOf("userId" to userId)
+    details = mapOf("userId" to userId),
 )

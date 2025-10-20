@@ -1,7 +1,7 @@
 package org.setackle.backend.infrastructure.persistence.skill.repository
 
-import org.setackle.backend.infrastructure.persistence.skill.entity.ResourceJpaEntity
 import org.setackle.backend.domain.skill.model.ResourceType
+import org.setackle.backend.infrastructure.persistence.skill.entity.ResourceJpaEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -16,7 +16,9 @@ interface ResourceJpaRepository : JpaRepository<ResourceJpaEntity, Long> {
 
     fun findByIsActiveTrue(): List<ResourceJpaEntity>
 
-    @Query("SELECT r FROM ResourceJpaEntity r WHERE r.nodeId = :nodeId AND r.isActive = true ORDER BY r.displayOrder ASC")
+    @Query(
+        "SELECT r FROM ResourceJpaEntity r WHERE r.nodeId = :nodeId AND r.isActive = true ORDER BY r.displayOrder ASC",
+    )
     fun findByNodeIdAndIsActiveTrueOrderByDisplayOrder(@Param("nodeId") nodeId: Long): List<ResourceJpaEntity>
 
     @Query("SELECT r FROM ResourceJpaEntity r WHERE r.resourceType = :resourceType AND r.isActive = true")
@@ -29,5 +31,8 @@ interface ResourceJpaRepository : JpaRepository<ResourceJpaEntity, Long> {
     fun findByTitleOrDescriptionContaining(@Param("keyword") keyword: String): List<ResourceJpaEntity>
 
     @Query("SELECT r FROM ResourceJpaEntity r WHERE r.nodeId = :nodeId AND r.resourceType = :resourceType")
-    fun findByNodeIdAndResourceType(@Param("nodeId") nodeId: Long, @Param("resourceType") resourceType: ResourceType): List<ResourceJpaEntity>
+    fun findByNodeIdAndResourceType(
+        @Param("nodeId") nodeId: Long,
+        @Param("resourceType") resourceType: ResourceType,
+    ): List<ResourceJpaEntity>
 }

@@ -9,7 +9,7 @@ class Skill(
     var displayOrder: Int = 0,
     var isActive: Boolean = true,
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

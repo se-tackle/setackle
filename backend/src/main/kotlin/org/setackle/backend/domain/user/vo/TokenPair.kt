@@ -5,5 +5,5 @@ package org.setackle.backend.domain.user.vo
  */
 data class TokenPair(
     val accessToken: AccessToken,
-    val refreshToken: RefreshToken
+    val refreshToken: RefreshToken,
 )

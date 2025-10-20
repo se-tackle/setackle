@@ -26,7 +26,7 @@ class JwtAuthenticationFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         try {
             val jwt = getJwtFromRequest(request)
@@ -53,7 +53,7 @@ class JwtAuthenticationFilter(
                             val authentication = UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
-                                userDetails.authorities
+                                userDetails.authorities,
                             )
                             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
                             SecurityContextHolder.getContext().authentication = authentication
@@ -94,7 +94,7 @@ class JwtAuthenticationFilter(
             "/webjars",
             "/auth/login",
             "/auth/register",
-            "/auth/refresh"
+            "/auth/refresh",
         )
 
         return excludePaths.any { path.startsWith(it) }

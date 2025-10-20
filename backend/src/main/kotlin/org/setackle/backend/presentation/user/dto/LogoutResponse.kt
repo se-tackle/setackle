@@ -7,7 +7,7 @@ import org.setackle.backend.application.user.inbound.LogoutResult
  */
 data class LogoutResponse(
     val success: Boolean,
-    val message: String
+    val message: String,
 ) {
     companion object {
 
@@ -17,7 +17,7 @@ data class LogoutResponse(
         fun from(result: LogoutResult): LogoutResponse {
             return LogoutResponse(
                 success = result.success,
-                message = result.message
+                message = result.message,
             )
         }
     }

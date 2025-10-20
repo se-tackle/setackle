@@ -11,7 +11,7 @@ class AssessmentSessionItem(
     var isCorrect: Boolean? = null,
     var answeredAt: LocalDateTime? = null,
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

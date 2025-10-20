@@ -27,7 +27,7 @@ class QuestionJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): Question {
         return Question(
@@ -37,7 +37,7 @@ class QuestionJpaEntity(
             description = description,
             isActive = isActive,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -50,7 +50,7 @@ class QuestionJpaEntity(
                 description = question.description,
                 isActive = question.isActive,
                 createdAt = question.createdAt ?: LocalDateTime.now(),
-                updatedAt = question.updatedAt ?: LocalDateTime.now()
+                updatedAt = question.updatedAt ?: LocalDateTime.now(),
             )
         }
     }
