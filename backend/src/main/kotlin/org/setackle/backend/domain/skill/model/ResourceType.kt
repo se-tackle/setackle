@@ -7,5 +7,5 @@ enum class ResourceType(val displayName: String, val description: String) {
     BOOK("도서", "기술 서적이나 전자책"),
     TOOL("도구", "개발 도구나 라이브러리"),
     TUTORIAL("튜토리얼", "튜토리얼"),
-    DOCUMENTATION("문서", "공식 문서나 API 레퍼런스")
+    DOCUMENTATION("문서", "공식 문서나 API 레퍼런스"),
 }

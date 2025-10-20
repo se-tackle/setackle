@@ -1,7 +1,6 @@
 package org.setackle.backend.application.user.outbound
 
 import java.time.Duration
-import java.time.LocalDateTime
 
 /**
  * 토큰 캐시 관련 출력 포트

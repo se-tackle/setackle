@@ -60,7 +60,7 @@ class Email private constructor(val value: String) {
     companion object {
         // RFC 5322 기반 이메일 정규식 (단순화된 버전)
         private val EMAIL_PATTERN = Pattern.compile(
-            "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+            "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
         )
 
         // 금지된 이메일 도메인 (예시)
@@ -69,7 +69,7 @@ class Email private constructor(val value: String) {
             "10minutemail.com",
             "guerrillamail.com",
             "mailinator.com",
-            "throwaway.email"
+            "throwaway.email",
         )
 
         /**

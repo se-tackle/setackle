@@ -5,7 +5,7 @@ package org.setackle.backend.domain.user.vo
  */
 data class AccessToken(
     val value: String,
-    val expiresIn: Long
+    val expiresIn: Long,
 ) {
     init {
         require(value.isNotBlank()) { "Access token value cannot be blank" }

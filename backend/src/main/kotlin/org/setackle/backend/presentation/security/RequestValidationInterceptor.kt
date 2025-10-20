@@ -31,14 +31,17 @@ class RequestValidationInterceptor : HandlerInterceptor {
             "sec-fetch-dest",
             "sec-ch-ua",
             "sec-ch-ua-mobile",
-            "sec-ch-ua-platform"
+            "sec-ch-ua-platform",
         )
 
         // SQL Injection 패턴
         private val SQL_INJECTION_PATTERNS = listOf(
             Pattern.compile("('|(\\-\\-)|(;)|(\\|)|(\\*)|(%))", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("(union|select|insert|delete|update|drop|create|alter|exec|execute)", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("(script|javascript|vbscript|onload|onerror|onclick)", Pattern.CASE_INSENSITIVE)
+            Pattern.compile(
+                "(union|select|insert|delete|update|drop|create|alter|exec|execute)",
+                Pattern.CASE_INSENSITIVE,
+            ),
+            Pattern.compile("(script|javascript|vbscript|onload|onerror|onclick)", Pattern.CASE_INSENSITIVE),
         )
 
         // XSS 패턴
@@ -46,7 +49,7 @@ class RequestValidationInterceptor : HandlerInterceptor {
             Pattern.compile("<script[^>]*>.*?</script>", Pattern.CASE_INSENSITIVE or Pattern.DOTALL),
             Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE),
             Pattern.compile("on\\w+\\s*=", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("<iframe[^>]*>.*?</iframe>", Pattern.CASE_INSENSITIVE or Pattern.DOTALL)
+            Pattern.compile("<iframe[^>]*>.*?</iframe>", Pattern.CASE_INSENSITIVE or Pattern.DOTALL),
         )
 
         // 경로 순회 공격 패턴
@@ -54,7 +57,7 @@ class RequestValidationInterceptor : HandlerInterceptor {
             Pattern.compile("\\.\\./"),
             Pattern.compile("\\.\\.\\\\"),
             Pattern.compile("%2e%2e%2f", Pattern.CASE_INSENSITIVE),
-            Pattern.compile("%2e%2e%5c", Pattern.CASE_INSENSITIVE)
+            Pattern.compile("%2e%2e%5c", Pattern.CASE_INSENSITIVE),
         )
 
         // 과도하게 긴 입력값 제한
@@ -66,7 +69,7 @@ class RequestValidationInterceptor : HandlerInterceptor {
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        handler: Any
+        handler: Any,
     ): Boolean {
         try {
             // 1. URI 길이 검증
@@ -95,7 +98,6 @@ class RequestValidationInterceptor : HandlerInterceptor {
             }
 
             return true
-
         } catch (e: Exception) {
             logger.error("Request validation error", e)
             return blockRequest(response, "요청 처리 중 오류가 발생했습니다.", "VALIDATION_ERROR")
@@ -169,7 +171,7 @@ class RequestValidationInterceptor : HandlerInterceptor {
         // 알려진 악성 Bot 패턴 검사
         val maliciousBotPatterns = listOf(
             "sqlmap", "nikto", "nmap", "masscan", "nessus",
-            "acunetix", "burpsuite", "zaproxy", "dirbuster"
+            "acunetix", "burpsuite", "zaproxy", "dirbuster",
         )
 
         val userAgentLower = userAgent.lowercase()
@@ -213,19 +215,21 @@ class RequestValidationInterceptor : HandlerInterceptor {
     private fun blockRequest(
         response: HttpServletResponse,
         message: String,
-        errorCode: String
+        errorCode: String,
     ): Boolean {
         logger.warn("Request blocked: $errorCode - $message")
 
         response.status = HttpStatus.BAD_REQUEST.value()
         response.contentType = "application/json"
-        response.writer.write("""
+        response.writer.write(
+            """
             {
                 "success": false,
                 "error": "$errorCode",
                 "message": "$message"
             }
-        """.trimIndent())
+            """.trimIndent(),
+        )
 
         return false
     }

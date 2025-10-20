@@ -13,12 +13,12 @@ class AssessmentSessionScopeJpaEntity(
 
     @Id
     @Column(name = "node_id")
-    val nodeId: Long
+    val nodeId: Long,
 ) {
     fun toDomain(): AssessmentSessionScope {
         return AssessmentSessionScope(
             sessionId = sessionId,
-            nodeId = nodeId
+            nodeId = nodeId,
         )
     }
 
@@ -26,7 +26,7 @@ class AssessmentSessionScopeJpaEntity(
         fun fromDomain(assessmentSessionScope: AssessmentSessionScope): AssessmentSessionScopeJpaEntity {
             return AssessmentSessionScopeJpaEntity(
                 sessionId = assessmentSessionScope.sessionId,
-                nodeId = assessmentSessionScope.nodeId
+                nodeId = assessmentSessionScope.nodeId,
             )
         }
     }
@@ -35,5 +35,5 @@ class AssessmentSessionScopeJpaEntity(
 @Embeddable
 data class AssessmentSessionScopeId(
     val sessionId: Long = 0,
-    val nodeId: Long = 0
+    val nodeId: Long = 0,
 ) : java.io.Serializable

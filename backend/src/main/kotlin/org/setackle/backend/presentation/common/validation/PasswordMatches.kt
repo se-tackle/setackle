@@ -13,5 +13,5 @@ import kotlin.reflect.KClass
 annotation class PasswordMatches(
     val message: String = "비밀번호가 일치하지 않습니다.",
     val groups: Array<KClass<*>> = [],
-    val payload: Array<KClass<out Payload>> = []
+    val payload: Array<KClass<out Payload>> = [],
 )

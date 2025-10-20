@@ -38,7 +38,7 @@ class RoadmapNodeJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): RoadmapNode {
         return RoadmapNode(
@@ -51,7 +51,7 @@ class RoadmapNodeJpaEntity(
             displayOrder = displayOrder,
             isActive = isActive,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -67,7 +67,7 @@ class RoadmapNodeJpaEntity(
                 displayOrder = roadmapNode.displayOrder,
                 isActive = roadmapNode.isActive,
                 createdAt = roadmapNode.createdAt ?: LocalDateTime.now(),
-                updatedAt = roadmapNode.updatedAt ?: LocalDateTime.now()
+                updatedAt = roadmapNode.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

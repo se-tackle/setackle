@@ -1,7 +1,7 @@
 package org.setackle.backend.infrastructure.persistence.user.repository
 
-import org.setackle.backend.infrastructure.persistence.user.entity.UserJpaEntity
 import org.setackle.backend.domain.user.vo.UserRole
+import org.setackle.backend.infrastructure.persistence.user.entity.UserJpaEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -32,6 +32,6 @@ interface UserJpaRepository : JpaRepository<UserJpaEntity, Long> {
     @Query("SELECT u FROM UserJpaEntity u WHERE u.registeredAt BETWEEN :start AND :end")
     fun findByCreatedAtBetween(
         @Param("start") start: LocalDateTime,
-        @Param("end") end: LocalDateTime
+        @Param("end") end: LocalDateTime,
     ): List<UserJpaEntity>
 }

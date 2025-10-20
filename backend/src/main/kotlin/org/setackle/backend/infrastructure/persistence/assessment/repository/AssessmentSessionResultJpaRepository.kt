@@ -14,18 +14,30 @@ interface AssessmentSessionResultJpaRepository : JpaRepository<AssessmentSession
     fun existsBySessionId(sessionId: Long): Boolean
 
     @Query("SELECT asr FROM AssessmentSessionResultJpaEntity asr WHERE asr.totalScore >= :minScore")
-    fun findByTotalScoreGreaterThanEqual(@Param("minScore") minScore: BigDecimal): List<AssessmentSessionResultJpaEntity>
+    fun findByTotalScoreGreaterThanEqual(
+        @Param("minScore") minScore: BigDecimal,
+    ): List<AssessmentSessionResultJpaEntity>
 
     @Query("SELECT asr FROM AssessmentSessionResultJpaEntity asr WHERE asr.correctAnswers >= :minCorrect")
-    fun findByCorrectAnswersGreaterThanEqual(@Param("minCorrect") minCorrect: Int): List<AssessmentSessionResultJpaEntity>
+    fun findByCorrectAnswersGreaterThanEqual(
+        @Param("minCorrect") minCorrect: Int,
+    ): List<AssessmentSessionResultJpaEntity>
 
     @Query("SELECT asr FROM AssessmentSessionResultJpaEntity asr WHERE asr.createdAt BETWEEN :start AND :end")
-    fun findByCreatedAtBetween(@Param("start") start: LocalDateTime, @Param("end") end: LocalDateTime): List<AssessmentSessionResultJpaEntity>
+    fun findByCreatedAtBetween(
+        @Param("start") start: LocalDateTime,
+        @Param("end") end: LocalDateTime,
+    ): List<AssessmentSessionResultJpaEntity>
 
     @Query("SELECT AVG(asr.totalScore) FROM AssessmentSessionResultJpaEntity asr")
     fun findAverageTotalScore(): BigDecimal?
 
-    @Query("SELECT AVG(CAST(asr.correctAnswers AS DOUBLE) / asr.totalQuestions * 100) FROM AssessmentSessionResultJpaEntity asr")
+    @Query(
+        """
+        SELECT AVG(CAST(asr.correctAnswers AS DOUBLE) / asr.totalQuestions * 100)
+        FROM AssessmentSessionResultJpaEntity asr
+        """,
+    )
     fun findAverageScorePercentage(): Double?
 
     @Query("SELECT MAX(asr.totalScore) FROM AssessmentSessionResultJpaEntity asr")

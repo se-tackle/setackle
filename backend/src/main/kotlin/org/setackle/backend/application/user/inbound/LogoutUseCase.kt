@@ -23,7 +23,7 @@ interface LogoutUseCase {
  */
 data class LogoutCommand(
     val userId: Long,
-    val bearerToken: String? = null
+    val bearerToken: String? = null,
 )
 
 /**
@@ -34,5 +34,5 @@ data class LogoutCommand(
  */
 data class LogoutResult(
     val success: Boolean,
-    val message: String
+    val message: String,
 )

@@ -41,7 +41,7 @@ class ResourceJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): Resource {
         return Resource(
@@ -55,7 +55,7 @@ class ResourceJpaEntity(
             displayOrder = displayOrder,
             isActive = isActive,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -72,7 +72,7 @@ class ResourceJpaEntity(
                 displayOrder = resource.displayOrder,
                 isActive = resource.isActive,
                 createdAt = resource.createdAt ?: LocalDateTime.now(),
-                updatedAt = resource.updatedAt ?: LocalDateTime.now()
+                updatedAt = resource.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

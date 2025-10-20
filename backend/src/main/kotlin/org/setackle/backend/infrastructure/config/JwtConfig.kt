@@ -23,40 +23,40 @@ import org.springframework.validation.annotation.Validated
 @ConfigurationProperties(prefix = "jwt")
 @Validated
 data class JwtConfig(
-      /**
-       * JWT 서명 키 (필수)
-       * YML에 반드시 정의되어 있어야 합니다.
-       */
-      @field:NotBlank(message = "JWT secret은 필수입니다")
-      var secret: String = "",
+    /**
+     * JWT 서명 키 (필수)
+     * YML에 반드시 정의되어 있어야 합니다.
+     */
+    @field:NotBlank(message = "JWT secret은 필수입니다")
+    var secret: String = "",
 
-      /**
-       * Access Token 유효기간 (초 단위, 필수)
-       * 최소 1초 이상이어야 합니다.
-       */
-      @field:Min(value = 1, message = "Access Token 유효기간은 최소 1초 이상이어야 합니다")
-      var accessTokenValidity: Long = 0,
+    /**
+     * Access Token 유효기간 (초 단위, 필수)
+     * 최소 1초 이상이어야 합니다.
+     */
+    @field:Min(value = 1, message = "Access Token 유효기간은 최소 1초 이상이어야 합니다")
+    var accessTokenValidity: Long = 0,
 
-      /**
-       * Refresh Token 유효기간 (초 단위, 필수)
-       * 최소 1초 이상이어야 합니다.
-       */
-      @field:Min(value = 1, message = "Refresh Token 유효기간은 최소 1초 이상이어야 합니다")
-      var refreshTokenValidity: Long = 0,
+    /**
+     * Refresh Token 유효기간 (초 단위, 필수)
+     * 최소 1초 이상이어야 합니다.
+     */
+    @field:Min(value = 1, message = "Refresh Token 유효기간은 최소 1초 이상이어야 합니다")
+    var refreshTokenValidity: Long = 0,
 
-      /**
-       * JWT 발행자 (선택, 기본값: "setackle")
-       */
-      var issuer: String = "",
+    /**
+     * JWT 발행자 (선택, 기본값: "setackle")
+     */
+    var issuer: String = "",
 
-      /**
-       * Authorization 헤더 이름 (선택, 기본값: "Authorization")
-       */
-      var header: String = "",
+    /**
+     * Authorization 헤더 이름 (선택, 기본값: "Authorization")
+     */
+    var header: String = "",
 
-      /**
-       * 토큰 접두사 (선택, 기본값: "Bearer ")
-       */
-      var tokenPrefix: String = "",
+    /**
+     * 토큰 접두사 (선택, 기본값: "Bearer ")
+     */
+    var tokenPrefix: String = "",
 
 )

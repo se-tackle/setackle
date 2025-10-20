@@ -11,7 +11,7 @@ class AssessmentSessionResult(
     var totalScore: BigDecimal = BigDecimal.ZERO,
     var topicResults: Map<Long, TopicResult> = emptyMap(), // topicId -> TopicResult
     val createdAt: LocalDateTime? = null,
-    val updatedAt: LocalDateTime? = null
+    val updatedAt: LocalDateTime? = null,
 ) {
     data class TopicResult(
         val topicId: Long,

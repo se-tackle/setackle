@@ -36,13 +36,13 @@ class RegisterUserService(
         val email = createValueObject(
             value = command.email,
             errorCode = ErrorCode.INVALID_EMAIL,
-            creator = Email::of
+            creator = Email::of,
         )
 
         val username = createValueObject(
             value = command.username,
             errorCode = ErrorCode.INVALID_INPUT_VALUE,
-            creator = Username::of
+            creator = Username::of,
         )
 
         val password = createValueObject(
@@ -70,7 +70,7 @@ class RegisterUserService(
         val userId = savedUser.id?.value
             ?: throw BusinessException(
                 ErrorCode.INTERNAL_SERVER_ERROR,
-                mapOf("details" to "사용자 ID가 생성되지 않았습니다.")
+                mapOf("details" to "사용자 ID가 생성되지 않았습니다."),
             )
 
         logger.info("회원가입 완료: userId=$userId")
@@ -88,7 +88,7 @@ class RegisterUserService(
     private inline fun <T> createValueObject(
         value: String,
         errorCode: ErrorCode,
-        creator: (String) -> T
+        creator: (String) -> T,
     ): T = try {
         creator(value)
     } catch (e: IllegalArgumentException) {

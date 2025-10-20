@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class WebSecurityConfig(
     private val rateLimitingInterceptor: RateLimitingInterceptor,
-    private val requestValidationInterceptor: RequestValidationInterceptor
+    private val requestValidationInterceptor: RequestValidationInterceptor,
 ) : WebMvcConfigurer {
 
     override fun addInterceptors(registry: InterceptorRegistry) {
@@ -29,7 +29,7 @@ class WebSecurityConfig(
                 "/api/auth/register",
                 "/api/auth/forgot-password",
                 "/api/auth/reset-password",
-                "/api/auth/change-password"
+                "/api/auth/change-password",
             )
             .order(2)
     }

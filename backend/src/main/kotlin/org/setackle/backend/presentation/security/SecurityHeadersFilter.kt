@@ -20,7 +20,7 @@ class SecurityHeadersFilter : Filter {
     override fun doFilter(
         request: ServletRequest,
         response: ServletResponse,
-        chain: FilterChain
+        chain: FilterChain,
     ) {
         val httpRequest = request as HttpServletRequest
         val httpResponse = response as HttpServletResponse
@@ -66,7 +66,7 @@ class SecurityHeadersFilter : Filter {
                 "img-src 'self' data: https:; " +
                 "font-src 'self'; " +
                 "connect-src 'self'; " +
-                "frame-ancestors 'none'"
+                "frame-ancestors 'none'",
         )
 
         // Strict-Transport-Security: HTTPS 강제 (HTTPS 환경에서만 설정)
@@ -76,7 +76,7 @@ class SecurityHeadersFilter : Filter {
         // Permissions-Policy: 브라우저 기능 사용 제한
         response.setHeader(
             "Permissions-Policy",
-            "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+            "camera=(), microphone=(), geolocation=(), payment=(), usb=()",
         )
 
         // Cache-Control: 민감한 정보 캐싱 방지 (API 응답용)

@@ -27,7 +27,7 @@ class QuestionOptionJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): QuestionOption {
         return QuestionOption(
@@ -37,7 +37,7 @@ class QuestionOptionJpaEntity(
             isCorrect = isCorrect,
             orderIndex = orderIndex,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -50,7 +50,7 @@ class QuestionOptionJpaEntity(
                 isCorrect = questionOption.isCorrect,
                 orderIndex = questionOption.orderIndex,
                 createdAt = questionOption.createdAt ?: LocalDateTime.now(),
-                updatedAt = questionOption.updatedAt ?: LocalDateTime.now()
+                updatedAt = questionOption.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

@@ -43,7 +43,7 @@ class LogoutService(
         invalidateTokenPair(
             userId = userId,
             accessToken = accessToken,
-            refreshToken = refreshToken
+            refreshToken = refreshToken,
         )
 
         return LogoutResult(

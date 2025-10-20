@@ -10,7 +10,7 @@ data class TokenValidation(
     val userId: Long? = null,
     val email: String? = null,
     val expirationTime: LocalDateTime? = null,
-    val reason: String? = null
+    val reason: String? = null,
 ) {
     companion object {
         fun valid(userId: Long, email: String, expirationTime: LocalDateTime): TokenValidation {
@@ -18,14 +18,14 @@ data class TokenValidation(
                 isValid = true,
                 userId = userId,
                 email = email,
-                expirationTime = expirationTime
+                expirationTime = expirationTime,
             )
         }
 
         fun invalid(reason: String): TokenValidation {
             return TokenValidation(
                 isValid = false,
-                reason = reason
+                reason = reason,
             )
         }
     }

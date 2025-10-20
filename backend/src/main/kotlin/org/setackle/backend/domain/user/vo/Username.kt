@@ -45,7 +45,7 @@ class Username private constructor(val value: String) {
         private val RESERVED_NAMES = setOf(
             "admin", "administrator", "root", "user", "test", "guest", "system",
             "api", "www", "mail", "ftp", "support", "help", "info", "service",
-            "null", "undefined", "void", "setackle", "app", "application"
+            "null", "undefined", "void", "setackle", "app", "application",
         )
 
         /**

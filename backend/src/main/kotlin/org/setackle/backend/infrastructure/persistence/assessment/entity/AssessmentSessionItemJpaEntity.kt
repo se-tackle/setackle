@@ -33,7 +33,7 @@ class AssessmentSessionItemJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): AssessmentSessionItem {
         return AssessmentSessionItem(
@@ -45,7 +45,7 @@ class AssessmentSessionItemJpaEntity(
             isCorrect = isCorrect,
             answeredAt = answeredAt,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -60,7 +60,7 @@ class AssessmentSessionItemJpaEntity(
                 isCorrect = assessmentSessionItem.isCorrect,
                 answeredAt = assessmentSessionItem.answeredAt,
                 createdAt = assessmentSessionItem.createdAt ?: LocalDateTime.now(),
-                updatedAt = assessmentSessionItem.updatedAt ?: LocalDateTime.now()
+                updatedAt = assessmentSessionItem.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

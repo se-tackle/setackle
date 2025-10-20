@@ -14,7 +14,7 @@ data class ApiResponse<T>(
     val error: ErrorResponse? = null,
 
     @Schema(description = "응답 시간")
-    val timestamp: LocalDateTime = LocalDateTime.now()
+    val timestamp: LocalDateTime = LocalDateTime.now(),
 ) {
     companion object {
         fun <T> success(data: T): ApiResponse<T> {

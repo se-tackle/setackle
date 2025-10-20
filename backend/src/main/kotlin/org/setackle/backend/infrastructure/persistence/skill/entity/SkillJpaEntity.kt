@@ -27,7 +27,7 @@ class SkillJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): Skill {
         return Skill(
@@ -37,7 +37,7 @@ class SkillJpaEntity(
             displayOrder = displayOrder,
             isActive = isActive,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -50,7 +50,7 @@ class SkillJpaEntity(
                 displayOrder = skill.displayOrder,
                 isActive = skill.isActive,
                 createdAt = skill.createdAt ?: LocalDateTime.now(),
-                updatedAt = skill.updatedAt ?: LocalDateTime.now()
+                updatedAt = skill.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

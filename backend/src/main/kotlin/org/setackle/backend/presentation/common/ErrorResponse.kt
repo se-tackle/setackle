@@ -18,7 +18,7 @@ data class ErrorResponse(
 
     @Schema(description = "필드별 유효성 검사 오류 등 상세 정보")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    val details: Map<String, Any?> = emptyMap()
+    val details: Map<String, Any?> = emptyMap(),
 ) {
     companion object {
         fun of(errorCode: ErrorCode, message: String): ErrorResponse =

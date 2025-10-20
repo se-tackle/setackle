@@ -38,7 +38,7 @@ class AssessmentSessionJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     fun toDomain(): AssessmentSession {
         return AssessmentSession(
@@ -51,7 +51,7 @@ class AssessmentSessionJpaEntity(
             completedAt = completedAt,
             expiredAt = expiredAt,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -67,7 +67,7 @@ class AssessmentSessionJpaEntity(
                 completedAt = assessmentSession.completedAt,
                 expiredAt = assessmentSession.expiredAt,
                 createdAt = assessmentSession.createdAt ?: LocalDateTime.now(),
-                updatedAt = assessmentSession.updatedAt ?: LocalDateTime.now()
+                updatedAt = assessmentSession.updatedAt ?: LocalDateTime.now(),
             )
         }
     }

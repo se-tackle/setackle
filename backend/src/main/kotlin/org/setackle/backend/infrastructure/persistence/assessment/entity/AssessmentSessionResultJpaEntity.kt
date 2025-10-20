@@ -33,7 +33,7 @@ class AssessmentSessionResultJpaEntity(
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 ) {
     @Transient
     private val objectMapper = jacksonObjectMapper()
@@ -65,7 +65,7 @@ class AssessmentSessionResultJpaEntity(
             totalScore = totalScore,
             topicResults = topicResults,
             createdAt = createdAt,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
         )
     }
 
@@ -78,7 +78,7 @@ class AssessmentSessionResultJpaEntity(
                 correctAnswers = assessmentSessionResult.correctAnswers,
                 totalScore = assessmentSessionResult.totalScore,
                 createdAt = assessmentSessionResult.createdAt ?: LocalDateTime.now(),
-                updatedAt = assessmentSessionResult.updatedAt ?: LocalDateTime.now()
+                updatedAt = assessmentSessionResult.updatedAt ?: LocalDateTime.now(),
             )
             entity.topicResults = assessmentSessionResult.topicResults
             return entity

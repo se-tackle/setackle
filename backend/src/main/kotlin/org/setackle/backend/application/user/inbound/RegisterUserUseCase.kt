@@ -24,4 +24,3 @@ data class RegisterUserResult(
     val email: String,
     val username: String,
 )
-
