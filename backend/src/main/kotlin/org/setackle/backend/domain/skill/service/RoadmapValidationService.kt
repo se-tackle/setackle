@@ -48,13 +48,6 @@ class RoadmapValidationService {
             errors.add("순환 참조가 감지되었습니다: ${cycleResult.cyclePath.joinToString(" -> ")}")
         }
 
-        // 4. 고아 노드 검사 (옵션: 루트가 아닌데 진입 엣지가 없는 노드)
-        val orphanNodes = findOrphanNodes(nodes, edges)
-        if (orphanNodes.isNotEmpty() && orphanNodes.size < nodes.size) {
-            // 모든 노드가 고아면 단일 루트가 없는 것이므로 경고만
-            errors.add("진입 엣지가 없는 노드가 있습니다 (여러 루트 또는 고아 노드): ${orphanNodes.joinToString()}")
-        }
-
         return ValidationResult(
             isValid = errors.isEmpty(),
             errors = errors,
