@@ -85,7 +85,7 @@ ktlint {
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.14" // Java 21~25 지원
 }
 
 tasks.jacocoTestReport {
