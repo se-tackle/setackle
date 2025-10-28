@@ -49,6 +49,9 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.flywaydb:flyway-database-postgresql")
 
+    // JSONB Support for Hibernate
+    implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.10")
+
     // Development
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
