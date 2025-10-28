@@ -2,6 +2,10 @@ package org.setackle.backend.presentation.skill.controller
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse as SwaggerApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.setackle.backend.application.user.inbound.*
@@ -9,6 +13,7 @@ import org.setackle.backend.common.exception.BusinessException
 import org.setackle.backend.common.exception.ErrorCode
 import org.setackle.backend.infrastructure.security.CustomUserDetails
 import org.setackle.backend.presentation.common.ApiResponse
+import org.setackle.backend.presentation.common.ErrorResponse
 import org.setackle.backend.presentation.skill.dto.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -41,6 +46,24 @@ class RoadmapProgressController(
         description = "사용자의 특정 로드맵 진행 상황을 조회합니다. " +
             "완료, 학습 중, 건너뛴 노드 목록과 전체 진행률이 포함됩니다.",
     )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "404",
+                description = "로드맵을 찾을 수 없음",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
+    )
     @GetMapping("/roadmaps/{slug}/progress")
     @ResponseStatus(HttpStatus.OK)
     fun getProgress(
@@ -65,6 +88,29 @@ class RoadmapProgressController(
         summary = "진행도 업데이트",
         description = "특정 노드의 진행 상태를 업데이트합니다. " +
             "상태: PENDING(미시작), DONE(완료), LEARNING(학습중), SKIPPED(건너뜀)",
+    )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "400",
+                description = "잘못된 요청 (유효하지 않은 상태)",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "404",
+                description = "로드맵 또는 노드를 찾을 수 없음",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
     )
     @PostMapping("/roadmaps/{slug}/progress")
     @ResponseStatus(HttpStatus.OK)
@@ -93,6 +139,29 @@ class RoadmapProgressController(
         description = "여러 노드의 진행 상태를 한 번에 업데이트합니다. " +
             "평가 완료 후 자동 업데이트나 CSV 임포트에 활용됩니다.",
     )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공 (실패한 항목이 있을 경우 errors 필드에 포함)",
+            ),
+            SwaggerApiResponse(
+                responseCode = "400",
+                description = "잘못된 요청 (빈 목록, 최대 개수 초과, 유효하지 않은 상태)",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "404",
+                description = "로드맵을 찾을 수 없음",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
+    )
     @PutMapping("/roadmaps/{slug}/progress/bulk")
     @ResponseStatus(HttpStatus.OK)
     fun bulkUpdateProgress(
@@ -119,6 +188,24 @@ class RoadmapProgressController(
         description = "사용자의 로드맵 진행 상황을 완전히 초기화합니다. " +
             "모든 완료/학습중/건너뜀 상태가 삭제됩니다.",
     )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "404",
+                description = "로드맵을 찾을 수 없음",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
+    )
     @DeleteMapping("/roadmaps/{slug}/progress")
     @ResponseStatus(HttpStatus.OK)
     fun resetProgress(
@@ -142,6 +229,24 @@ class RoadmapProgressController(
         summary = "즐겨찾기 토글",
         description = "로드맵을 즐겨찾기에 추가하거나 제거합니다.",
     )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+            SwaggerApiResponse(
+                responseCode = "404",
+                description = "로드맵을 찾을 수 없음",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
+    )
     @PostMapping("/roadmaps/{slug}/favorite")
     @ResponseStatus(HttpStatus.OK)
     fun toggleFavorite(
@@ -164,6 +269,19 @@ class RoadmapProgressController(
         summary = "진행 중인 로드맵 목록",
         description = "사용자가 진행 중인 모든 로드맵 목록을 조회합니다.",
     )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
+    )
     @GetMapping("/progress/roadmaps")
     @ResponseStatus(HttpStatus.OK)
     fun getUserRoadmaps(
@@ -183,6 +301,19 @@ class RoadmapProgressController(
     @Operation(
         summary = "즐겨찾기 로드맵 목록",
         description = "사용자가 즐겨찾기한 로드맵 목록을 조회합니다.",
+    )
+    @ApiResponses(
+        value = [
+            SwaggerApiResponse(
+                responseCode = "200",
+                description = "성공",
+            ),
+            SwaggerApiResponse(
+                responseCode = "401",
+                description = "인증 필요",
+                content = [Content(schema = Schema(implementation = ErrorResponse::class))],
+            ),
+        ],
     )
     @GetMapping("/progress/favorites")
     @ResponseStatus(HttpStatus.OK)
