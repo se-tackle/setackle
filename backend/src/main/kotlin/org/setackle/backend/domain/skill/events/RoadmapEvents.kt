@@ -218,3 +218,57 @@ data class ProgressResetEvent(
     val resetNodeCount: Int,
     override val occurredOn: LocalDateTime = LocalDateTime.now(),
 ) : DomainEvent
+
+/**
+ * 로드맵 생성 이벤트
+ *
+ * - 새로운 로드맵이 생성되었을 때 발생
+ * - 캐시 무효화를 위해 사용됨
+ *
+ * @property roadmapId 로드맵 ID
+ * @property slug 로드맵 슬러그
+ * @property roadmapName 로드맵 이름
+ * @property occurredOn 이벤트 발생 시간
+ */
+data class RoadmapCreatedEvent(
+    val roadmapId: Long,
+    val slug: String,
+    val roadmapName: String,
+    override val occurredOn: LocalDateTime = LocalDateTime.now(),
+) : DomainEvent
+
+/**
+ * 로드맵 업데이트 이벤트
+ *
+ * - 로드맵의 내용이 수정되었을 때 발생
+ * - 캐시 무효화를 위해 사용됨
+ *
+ * @property roadmapId 로드맵 ID
+ * @property slug 로드맵 슬러그
+ * @property roadmapName 로드맵 이름
+ * @property occurredOn 이벤트 발생 시간
+ */
+data class RoadmapUpdatedEvent(
+    val roadmapId: Long,
+    val slug: String,
+    val roadmapName: String,
+    override val occurredOn: LocalDateTime = LocalDateTime.now(),
+) : DomainEvent
+
+/**
+ * 로드맵 삭제 이벤트
+ *
+ * - 로드맵이 삭제되었을 때 발생
+ * - 캐시 무효화를 위해 사용됨
+ *
+ * @property roadmapId 로드맵 ID
+ * @property slug 로드맵 슬러그
+ * @property roadmapName 로드맵 이름
+ * @property occurredOn 이벤트 발생 시간
+ */
+data class RoadmapDeletedEvent(
+    val roadmapId: Long,
+    val slug: String,
+    val roadmapName: String,
+    override val occurredOn: LocalDateTime = LocalDateTime.now(),
+) : DomainEvent
