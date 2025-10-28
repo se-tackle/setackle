@@ -9,6 +9,7 @@ import org.setackle.backend.common.exception.BusinessException
 import org.setackle.backend.common.exception.ErrorCode
 import org.setackle.backend.infrastructure.security.CustomUserDetails
 import org.setackle.backend.presentation.common.ApiResponse
+import org.setackle.backend.presentation.skill.dto.*
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -46,10 +47,10 @@ class RoadmapProgressController(
         @Parameter(description = "로드맵 슬러그", example = "frontend-development")
         @PathVariable slug: String,
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<UserProgressResult> {
+    ): ApiResponse<UserProgressResponse> {
         val userId = getUserId(userDetails)
-        val progress = getUserRoadmapProgressUseCase.getProgress(userId, slug)
-        return ApiResponse.success(progress)
+        val result = getUserRoadmapProgressUseCase.getProgress(userId, slug)
+        return ApiResponse.success(UserProgressResponse.from(result))
     }
 
     /**
@@ -72,16 +73,11 @@ class RoadmapProgressController(
         @PathVariable slug: String,
         @Valid @RequestBody request: UpdateProgressRequest,
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<UpdateProgressResult> {
+    ): ApiResponse<UpdateProgressResponse> {
         val userId = getUserId(userDetails)
-        val command = UpdateProgressCommand(
-            userId = userId,
-            roadmapSlug = slug,
-            nodeId = request.nodeId,
-            status = request.status,
-        )
+        val command = request.toCommand(userId, slug)
         val result = updateRoadmapProgressUseCase.updateProgress(command)
-        return ApiResponse.success(result)
+        return ApiResponse.success(UpdateProgressResponse.from(result))
     }
 
     /**
@@ -104,15 +100,11 @@ class RoadmapProgressController(
         @PathVariable slug: String,
         @Valid @RequestBody request: BulkUpdateProgressRequest,
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<BulkUpdateProgressResult> {
+    ): ApiResponse<BulkUpdateProgressResponse> {
         val userId = getUserId(userDetails)
-        val command = BulkUpdateProgressCommand(
-            userId = userId,
-            roadmapSlug = slug,
-            updates = request.updates,
-        )
+        val command = request.toCommand(userId, slug)
         val result = bulkUpdateProgressUseCase.bulkUpdate(command)
-        return ApiResponse.success(result)
+        return ApiResponse.success(BulkUpdateProgressResponse.from(result))
     }
 
     /**
@@ -133,10 +125,10 @@ class RoadmapProgressController(
         @Parameter(description = "로드맵 슬러그", example = "frontend-development")
         @PathVariable slug: String,
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<ResetProgressResult> {
+    ): ApiResponse<ResetProgressResponse> {
         val userId = getUserId(userDetails)
         val result = updateRoadmapProgressUseCase.resetProgress(userId, slug)
-        return ApiResponse.success(result)
+        return ApiResponse.success(ResetProgressResponse.from(result))
     }
 
     /**
@@ -156,10 +148,10 @@ class RoadmapProgressController(
         @Parameter(description = "로드맵 슬러그", example = "frontend-development")
         @PathVariable slug: String,
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<ToggleFavoriteResult> {
+    ): ApiResponse<ToggleFavoriteResponse> {
         val userId = getUserId(userDetails)
         val result = updateRoadmapProgressUseCase.toggleFavorite(userId, slug)
-        return ApiResponse.success(result)
+        return ApiResponse.success(ToggleFavoriteResponse.from(result))
     }
 
     /**
@@ -176,10 +168,10 @@ class RoadmapProgressController(
     @ResponseStatus(HttpStatus.OK)
     fun getUserRoadmaps(
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<List<UserRoadmapSummary>> {
+    ): ApiResponse<List<UserRoadmapSummaryResponse>> {
         val userId = getUserId(userDetails)
         val roadmaps = getUserRoadmapProgressUseCase.getUserRoadmaps(userId)
-        return ApiResponse.success(roadmaps)
+        return ApiResponse.success(UserRoadmapSummaryResponse.fromList(roadmaps))
     }
 
     /**
@@ -196,10 +188,10 @@ class RoadmapProgressController(
     @ResponseStatus(HttpStatus.OK)
     fun getFavoriteRoadmaps(
         @AuthenticationPrincipal userDetails: CustomUserDetails,
-    ): ApiResponse<List<UserRoadmapSummary>> {
+    ): ApiResponse<List<UserRoadmapSummaryResponse>> {
         val userId = getUserId(userDetails)
         val favorites = getUserRoadmapProgressUseCase.getFavoriteRoadmaps(userId)
-        return ApiResponse.success(favorites)
+        return ApiResponse.success(UserRoadmapSummaryResponse.fromList(favorites))
     }
 
     /**
@@ -217,18 +209,3 @@ class RoadmapProgressController(
             )
     }
 }
-
-/**
- * 진행 상태 업데이트 요청
- */
-data class UpdateProgressRequest(
-    val nodeId: String,
-    val status: String, // PENDING, DONE, LEARNING, SKIPPED
-)
-
-/**
- * 일괄 진행도 업데이트 요청
- */
-data class BulkUpdateProgressRequest(
-    val updates: List<NodeStatusUpdate>,
-)
